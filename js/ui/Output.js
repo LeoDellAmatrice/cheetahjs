@@ -5,10 +5,14 @@ export function Output(editor, feedback) {
     el.textContent = text;
   }
 
+  function append(text) {
+    el.textContent += "\n" + text;
+  }
+
   function clear() {
     el.textContent = "";
     editor.limparDestaques();
   }
 
-  return { set, clear };
+  return { set, append, clear };
 }

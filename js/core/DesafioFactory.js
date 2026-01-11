@@ -7,6 +7,15 @@ export function DesafioFactory(storage) {
     return atual;
   }
 
+  function isTypeError(){
+    
+    if (Desafios[atual].tipo === "erro-didatico"){
+      return true
+    }
+
+    return false 
+  }
+
   function getDados() {
     return Desafios[atual];
   }
@@ -71,6 +80,7 @@ export function DesafioFactory(storage) {
     avancar,
     proximo,
     anterior,
+    isTypeError,
     validar,
     isUltimo,
     resetAll

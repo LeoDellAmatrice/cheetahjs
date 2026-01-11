@@ -1,58 +1,93 @@
+function capturarFuncoesParaContext(code) {
+  return code.replace(
+    /function\s+([a-zA-Z_$][\w$]*)\s*\(/g,
+    "$1 = function $1("
+  );
+}
+
 function executeUserCode(code) {
   try {
     const fakeConsole = {
       output: "",
-      log(msg) {
-        this.output += msg + "\n";
+      log(...args) {
+        this.output += args.join(" ") + "\n";
       }
     };
 
-    const context = {};
+    const context = {
+      console: fakeConsole
+    };
 
     const sandbox = new Proxy(context, {
       has() {
-        return true; // faz o JS "achar" que a variável existe
+        return true;
       },
+
       get(target, prop) {
         return target[prop];
       },
+
       set(target, prop, value) {
         target[prop] = value;
         return true;
       }
     });
 
+    const codigoTransformado = capturarFuncoesParaContext(code);
+
+    console.log(codigoTransformado)
+
     const fn = new Function(
-      "console",
       "sandbox",
       `
       with (sandbox) {
-        ${code}
+        ${codigoTransformado}
       }
-    `
+      `
     );
 
-    fn(fakeConsole, sandbox);
+    fn(sandbox);
 
     return {
       ok: true,
       context,
       consoleOutput: fakeConsole.output.trim()
     };
+
   } catch (e) {
     return {
       ok: false,
-      error: e.message
+      error: e
     };
   }
 }
 
 
+function validarErroEsperado(code, erroEsperado) {
+  const exec = executeUserCode(code);
+
+  if (exec.ok) {
+    return {
+      ok: false,
+      message: "Este desafio espera que ocorra um erro."
+    };
+  }
+
+  if (exec.error.name === erroEsperado) {
+    return { ok: true };
+  }
+
+  return {
+    ok: false,
+    message: `O erro esperado era ${erroEsperado}, mas ocorreu ${exec.error.name}.`
+  };
+}
+
 function runRules(exec, rules) {
   if (!exec.ok) {
     return {
       ok: false,
-      message: "Erro ao executar o código."
+      message: null
     };
   }
 
@@ -191,6 +226,10 @@ const validators = [
         "5",
         "O loop deve imprimir o número 5."
       ),
+      rules.consoleIncludes(
+        "1\n2\n3\n4\n5",
+        "O loop deve imprimir os numeros de 1 a 5."
+      ),
       (exec) =>
         !exec.consoleOutput.includes("0") &&
         !exec.consoleOutput.includes("6")
@@ -253,6 +292,14 @@ const validators = [
   (code) => {
     const exec = executeUserCode(code);
     return runRules(exec, [
+      rules.exists(
+        "numeros",
+        "O array numeros não foi criado."
+      ),
+      (exec) =>
+        Array.isArray(exec.context.numeros)
+          ? { ok: true }
+          : { ok: false, message: "numeros deve ser um array." },
       rules.consoleIncludes(
         "20",
         "Você deve imprimir o segundo valor do array (20)."
@@ -263,6 +310,7 @@ const validators = [
   // 09 - Funções básicas
   (code) => {
     const exec = executeUserCode(code);
+    console.log(exec)
     return runRules(exec, [
       rules.exists(
         "saudacao",
@@ -273,10 +321,10 @@ const validators = [
         "saudacao deve ser uma função."
       ),
       (exec) => {
-        exec.context.saudacao("João");
+        exec.context.saudacao("Joao");
         return rules.consoleIncludes(
-          "Olá, João",
-          "A função deve imprimir 'Olá, João'."
+          "Olá, Joao",
+          "A função deve imprimir - 'Olá, ' + nome - (parametro da função)."
         )(exec);
       }
     ]);
@@ -325,7 +373,7 @@ export const Desafios = [
   },
   {
     titulo: "Condicional simples",
-    instrucoes: "Crie uma variável idade com valor 19 e use if/else para imprimir 'maior de idade' se idade >= 18, senão 'menor de idade'.\n\n💡 Dica: estrutura básica:\nif (condicao) {\n  // código se for verdadeiro\n} else {\n  // código se for falso\n}",
+    instrucoes: "Crie uma variável idade com o valor da sua idade e use if/else para imprimir 'maior de idade' se idade >= 18, senão 'menor de idade'.\n\n💡 Dica: estrutura básica:\nif (condicao) {\n  // código se for verdadeiro\n} else {\n  // código se for falso\n}",
     unlockComplete: ['if', 'else'],
     validar: validators[3]
   },
@@ -364,6 +412,14 @@ export const Desafios = [
     instrucoes: "Crie uma função chamada dobro que recebe um número e retorna o dobro dele.\n\n💡 Dica: para retornar um valor usamos return. Exemplo:\nfunction soma(a, b) {\n  return a + b;\n}",
     unlockComplete: ['return'],
     validar: validators[9]
+  },
+  {
+  titulo: "Erro de referência",
+  tipo: "erro-didatico",
+  instrucoes: "a",
+  erroEsperado: "ReferenceError",
+  validar: (code) =>
+    validarErroEsperado(code, "ReferenceError")
   }
 ];
 

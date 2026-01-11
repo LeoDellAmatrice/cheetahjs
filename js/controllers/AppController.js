@@ -32,6 +32,8 @@ export function AppController(editor, desafios, feedback, output) {
         editor.limparDestaques();
         editor.animarExecucaoCodeMirror()
 
+        output.clear();
+
         // 1️⃣ Executar o código SEMPRE
         try {
             const fakeConsole = {
@@ -45,24 +47,31 @@ export function AppController(editor, desafios, feedback, output) {
 
             output.set(fakeConsole._output || "Código sem erros. Console sem mensagens.\nuse console.log() para exibir mensagens aqui :)");
         } catch (e) {
+
             const info = extrairLinhaColuna(e);
             const mensagemAmigavel = errorTranslator.traduzir(e);
-
-            feedback.show(mensagemAmigavel.hint, "info", 6000)
 
             if (info) {
                 editor.destacarLinha(info.linha);
                 output.set(
                     `Erro na linha: ${info.linha}\n` +
                     `${mensagemAmigavel.text}\n\n` +
-                    `Detalhe técnico: ${e.message}`
+                    `Detalhe técnico:\n${e.name}: ${e.message}`
                 );
             } else {
                 output.set(
                     `Sem Informação de linha.\n` +
                     `${mensagemAmigavel.text}\n\n` +
-                    `Detalhe técnico: ${e.message}`
+                    `Detalhe técnico:\n${e.name}: ${e.message}`
                 );
+            }
+
+            output.set(
+                `❌ Erro na linha ${info?.linha ?? "desconhecida"}\n${mensagemAmigavel.text}\n\nDetalhe técnico:\n${e.name}: ${e.message}`
+            );
+
+            if (!desafios.isTypeError() && mensagemAmigavel.hint) {
+                output.append(`\n💡 Dica:${mensagemAmigavel.hint}`);
             }
         }
 
@@ -78,7 +87,8 @@ export function AppController(editor, desafios, feedback, output) {
                 feedback.show("Parabéns! Você completou o desafio.", "success");
             } else {
                 feedback.show("Desafio não foi completo. Tente novamente.", "error");
-                if (valido.message) feedback.show(valido.message, "info", 5000)
+                output.append(`\nDesafio não concluído. ${valido.message || "Revise as instruções e tente novamente."}`
+                    );
             }
         } catch (e) {
             feedback.show("Erro na validação: " + e.message, "error");
