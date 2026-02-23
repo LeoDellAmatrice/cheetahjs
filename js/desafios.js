@@ -137,7 +137,7 @@ const rules = {
 
   consoleIncludes(text, message) {
     return (exec) =>
-      exec.consoleOutput.includes(text)
+      exec.context.console.output.includes(text)
         ? { ok: true }
         : { ok: false, message };
   }
@@ -323,7 +323,7 @@ const validators = [
       (exec) => {
         exec.context.saudacao("Joao");
         return rules.consoleIncludes(
-          "Olá, Joao",
+          "Olá, Joao\n",
           "A função deve imprimir - 'Olá, ' + nome - (parametro da função)."
         )(exec);
       }
