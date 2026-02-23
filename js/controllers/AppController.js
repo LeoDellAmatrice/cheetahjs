@@ -17,14 +17,24 @@ export function AppController(editor, desafios, feedback, output) {
     }
 
     function extrairLinhaColuna(erro) {
-        const match = erro.stack?.match(/<anonymous>:(\d+):(\d+)/);
+        const stack = erro.stack ?? "";
 
-        if (!match) return null;
+        const patterns = [
+            /Function:(\d+)/,                  // Firefox
+            /<anonymous>:(\d+):(\d+)/          // Chrome/Edge
+        ];
 
-        return {
-            linha: Number(match[1]) - 2,
-            coluna: Number(match[2])
-        };
+        for (const pattern of patterns) {
+            const match = stack.match(pattern);
+            if (match) {
+                return {
+                    linha: Number(match[1]) - 2,
+                    coluna: match[2] ? Number(match[2]) : null
+                };
+            }
+        }
+
+        return null;
     }
 
     function executar() {
