@@ -35,8 +35,6 @@ function executeUserCode(code) {
 
     const codigoTransformado = capturarFuncoesParaContext(code);
 
-    console.log(codigoTransformado)
-
     const fn = new Function(
       "sandbox",
       `
@@ -159,7 +157,6 @@ const validators = [
   // 02 - Criando variáveis
   (code) => {
     const exec = executeUserCode(code);
-    console.log(exec.context)
     return runRules(exec, [
       rules.exists(
         "nome",
