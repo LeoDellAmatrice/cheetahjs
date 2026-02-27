@@ -1,7 +1,7 @@
 function capturarFuncoesParaContext(code) {
   return code.replace(
     /function\s+([a-zA-Z_$][\w$]*)\s*\(/g,
-    "$1 = function $1("
+    "sandbox.$1 = function $1("
   );
 }
 
@@ -19,8 +19,8 @@ function executeUserCode(code) {
     };
 
     const sandbox = new Proxy(context, {
-      has() {
-        return true;
+      has(target, prop) {
+        return prop in target;
       },
 
       get(target, prop) {
@@ -70,6 +70,8 @@ function validarErroEsperado(code, erroEsperado) {
       message: "Este desafio espera que ocorra um erro."
     };
   }
+
+  console.log(exec)
 
   if (exec.error.name === erroEsperado) {
     return { ok: true };
@@ -346,6 +348,11 @@ const validators = [
         "A função dobro deve retornar o dobro do número."
       )
     ]);
+  },
+
+  // 11 - Erro de referência
+  (code) => {
+    return validarErroEsperado(code, "ReferenceError")
   }
 ];
 
@@ -411,12 +418,11 @@ export const Desafios = [
     validar: validators[9]
   },
   {
-  titulo: "Erro de referência",
-  tipo: "erro-didatico",
-  instrucoes: "a",
-  erroEsperado: "ReferenceError",
-  validar: (code) =>
-    validarErroEsperado(code, "ReferenceError")
+    titulo: "Erro de referência",
+    tipo: "erro-didatico",
+    instrucoes: "a",
+    erroEsperado: "ReferenceError",
+    validar: validators[10],
   }
 ];
 
