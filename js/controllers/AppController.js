@@ -89,17 +89,21 @@ export function AppController(editor, desafios, feedback, output) {
         try {
             const valido = desafios.validar(code);
 
-            console.log(valido.message)
+            console.log(valido)
 
             if (valido.ok) {
                 desafios.avancar();
                 editor.addToAutoComplete(desafios.getDadosUnlock());
                 feedback.show("Parabéns! Você completou o desafio.", "success");
+
+                if (desafios.isTypeError()){
+                    output.append(`\nDesafio concluido: ${valido.message}`)
+                }
             } else {
                 feedback.show("Desafio não foi completo. Tente novamente.", "error");
-                output.append(`\nDesafio não concluído. ${valido.message || "Revise as instruções e tente novamente."}`
-                    );
+                output.append(`\nDesafio não concluído. ${valido.message || "Revise as instruções e tente novamente."}`);
             }
+
         } catch (e) {
             feedback.show("Erro na validação: " + e.message, "error");
         }
