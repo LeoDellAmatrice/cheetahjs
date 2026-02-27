@@ -61,7 +61,7 @@ function executeUserCode(code) {
 }
 
 
-function validarErroEsperado(code, erroEsperado) {
+function validarErroEsperado(code, erroEsperado, message) {
   const exec = executeUserCode(code);
 
   if (exec.ok) {
@@ -74,7 +74,7 @@ function validarErroEsperado(code, erroEsperado) {
   console.log(exec)
 
   if (exec.error.name === erroEsperado) {
-    return { ok: true };
+    return { ok: true, message: message};
   }
 
   return {
@@ -352,7 +352,12 @@ const validators = [
 
   // 11 - Erro de referência
   (code) => {
-    return validarErroEsperado(code, "ReferenceError")
+    return validarErroEsperado(code, "ReferenceError", "ReferenceError Encontrado!")
+  },
+
+  // 12 - Erro de Tipo
+  (code) => {
+    return validarErroEsperado(code, "TypeError", "TypeError Encontrado!")
   }
 ];
 
@@ -420,9 +425,16 @@ export const Desafios = [
   {
     titulo: "Erro de referência",
     tipo: "erro-didatico",
-    instrucoes: "a",
+    instrucoes: "Crie um código que gere um ReferenceError.\n\n💡 Dica: Um ReferenceError acontece quando tentamos usar algo que não foi declarado (criado).",
     erroEsperado: "ReferenceError",
     validar: validators[10],
+  },
+  {
+    titulo: "Erro de tipo",
+    tipo: "erro-didatico",
+    instrucoes: "Crie um código que gere um TypeError.\n\n💡 Um TypeError acontece quando usamos um valor de maneira incorreta, como tentar chamar algo que não é função ou acessar algo que não existe em um valor.",
+    erroEsperado: "TypeError",
+    validar: validators[11],
   }
 ];
 
