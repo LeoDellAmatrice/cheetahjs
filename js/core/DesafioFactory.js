@@ -29,7 +29,7 @@ export function DesafioFactory(storage) {
     let listAllUnlock = []
 
     for (let i = 0; i<=Number(atual)-1;i++){
-      Desafios[i].unlockComplete.forEach(word => {
+      Desafios[i].unlockComplete?.forEach(word => {
         listAllUnlock.push(word)
       });
     }
