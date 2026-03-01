@@ -1,0 +1,272 @@
+/* CONFIGURACOES GERAIS */
+.page {
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+.card {
+    background: var(--back-color);
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding: 15px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+
+    container-type: inline-size;
+    container-name: card;
+}
+
+/* ===== PAGINA EDITOR ===== */
+.pg-editor.active {
+    display: grid;
+    height: 100%;
+    grid-template-columns: 1fr 1.2fr;
+    grid-template-rows: 1fr 0.5fr;
+    grid-template-areas:
+        "desafio workspace"
+        "console workspace";
+    gap: 15px;
+    padding: 15px;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+@media (max-width: 900px) {
+    .pg-editor.active {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 1fr);
+        grid-template-areas:
+            "desafio"
+            "console"
+            "workspace";
+        height: auto;
+        overflow-y: auto;
+    }
+}
+
+.card-desafio {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    text-align: center;
+}
+
+@container card (max-width: 500px) {
+    .card-desafio {
+        display: grid;
+        justify-content: stretch;
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    #btn-anterior,
+    #btn-proximo {
+        grid-row-start: 2;
+    }
+
+    #desafio-number {
+        grid-column: span 2;
+    }
+}
+
+/* Workspace lado a lado */
+.workspace {
+    grid-area: workspace;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    height: 100%;
+}
+
+#editor {
+    flex-grow: 1;
+    overflow-y: hidden;
+}
+
+#titulo {
+    text-align: center;
+}
+
+#instrucoes {
+    white-space: pre-wrap;
+}
+
+@media (max-width: 900px) {
+    .workspace {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+.header-card {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.console-output {
+    flex-grow: 1;
+    /* Ocupa o espaço restante */
+    overflow: hidden;
+    /* Esconde overflow do container */
+}
+
+/* Console estilo terminal */
+#output {
+    background: var(--back2-color);
+    color: #eaeaea;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    border-radius: 8px;
+    min-height: 100px;
+    height: 100%;
+    padding: 12px;
+    white-space: pre-wrap;
+    box-shadow: inset 0 0 0 1px #333;
+
+    flex-grow: 1;
+    /* Ocupa todo o espaço do container */
+    overflow-y: auto;
+    /* Scroll vertical apenas quando necessário */
+    max-height: 300px;
+    /* Nunca ultrapassa a altura do container */
+    min-height: 100px;
+    /* Altura mínima para ser visível */
+    word-break: break-word;
+    /* Quebra palavras longas */
+    overflow-wrap: break-word;
+    /* Quebra palavras longas */
+}
+
+
+
+
+/* ===== PAGINA HOME ===== */
+.pg-home.active {
+    display: block;
+    height: 100%;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.home-grid {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    grid-template-columns: 3fr 2fr;
+    gap: 15px;
+}
+
+/* RESPONSIVO */
+@media (max-width: 900px) {
+    .home-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* LADO ESQUERDO */
+
+.home-left {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 20px;
+}
+
+.home-intro, .home-challenges {
+    grid-column: span 2
+}
+
+.home-intro h2 {
+    color: var(--primary-color);
+}
+
+.progress-bar-number {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.home-progress .progress-bar {
+    width: 100%;
+    height: 10px;
+    background: var(--back2-color);
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 40%;
+    background: var(--primary-color);
+    border-radius: 6px;
+    transition: width 0.3s ease;
+}
+
+.progress-number {
+    text-wrap: nowrap;
+}
+
+/* LISTA DE DESAFIOS */
+
+.challenge-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+}
+
+/* LADO DIREITO */
+
+.home-right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.home-info ul {
+    margin-top: 10px;
+    padding-left: 18px;
+}
+
+.home-info li {
+    margin-bottom: 6px;
+}
+
+
+.roadmap-list {
+    list-style: none;
+    padding: 0;
+}
+
+.roadmap-list li {
+    margin: 6px 0;
+}
+
+.done {
+    color: #4CAF50;
+}
+
+/* SHORTCUTS */
+
+.home-shortcuts {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.shortcut-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+kbd {
+    background: var(--back2-color);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    border: 1px solid #333;
+}
