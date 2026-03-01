@@ -35,13 +35,20 @@
             </div>
         </div>
 
-        <img id="icon-setting"
-            src="assets/img/settings-gear.svg"
-            alt="Abrir configurações"
-            role="button"
-            tabindex="0"
-            width="28"
-            height="28">
+        <div class="header-right">
+            <nav class="header-nav">
+                <a id="nav-home" href="#" data-page="home">Home</a>
+                <a id="nav-editor" href="#" data-page="editor">Editor</a>
+            </nav>
+    
+            <img id="icon-setting"
+                src="assets/img/settings-gear.svg"
+                alt="Abrir configurações"
+                role="button"
+                tabindex="0"
+                width="28"
+                height="28">
+        </div>
     </header>
     <div class="header-status" id="header-status"></div>
     
@@ -51,42 +58,52 @@
 
 
     <main>
-        <section id="desafio" class="card">
-            <div class="card-desafio">
-                <button id="btn-anterior"> &lt;&lt;  Desafio Anterior</button>
-                <h2 id="desafio-number">Loading...</h2>
-                <button id="btn-proximo">Próximo Desafio >></button>
-            </div>
-            <h2 id="titulo" >Aguarde um Momento...</h2>
-            <h3>Instruções:</h3>
-            <p id="instrucoes"></p>
+        <section id="pg-home" class="page pg-home">
+            <p>Pagina Home</p>
 
         </section>
 
-        <section class="console-section">
-            <div class="console card">
-                <div class="header-card">
-                    <h3>Console</h3>
-                    <button id="btn-limpar-console">Limpar Console</button>
-                </div>
-                <div class="console-output">
-                    <div id="output"></div>
-                </div>
-            </div>
-        </section>
+        <section id="pg-editor" class="page pg-editor active "> 
+            <!-- TROCAR PAGINA ATIVA APOS PAGINA HOME PRONTA -->
 
-        <section class="workspace">
-            <div class="editor card">
-                <div class="header-card">
-                    <h3>Editor de Código</h3>
-                    <div class="buttons">
-                        <button id="btn-executar">▶ Executar</button>
+            <section id="desafio" class="card">
+                <div class="card-desafio">
+                    <button id="btn-anterior"> &lt;&lt;  Desafio Anterior</button>
+                    <h2 id="desafio-number">Loading...</h2>
+                    <button id="btn-proximo">Próximo Desafio >></button>
+                </div>
+                <h2 id="titulo" >Aguarde um Momento...</h2>
+                <h3>Instruções:</h3>
+                <p id="instrucoes"></p>
+    
+            </section>
+    
+            <section class="console-section">
+                <div class="console card">
+                    <div class="header-card">
+                        <h3>Console</h3>
+                        <button id="btn-limpar-console">Limpar Console</button>
+                    </div>
+                    <div class="console-output">
+                        <div id="output"></div>
                     </div>
                 </div>
-                <!-- Div container do CodeMirror -->
-                <div id="editor"></div>
-            </div>
-            
+            </section>
+    
+            <section class="workspace">
+                <div class="editor card">
+                    <div class="header-card">
+                        <h3>Editor de Código</h3>
+                        <div class="buttons">
+                            <button id="btn-executar">▶ Executar</button>
+                        </div>
+                    </div>
+                    <!-- Div container do CodeMirror -->
+                    <div id="editor"></div>
+                </div>
+                
+            </section>
+
         </section>
 
     </main>

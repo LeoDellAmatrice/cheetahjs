@@ -16,6 +16,7 @@ window.onload = () => {
     value: "// Bem-vindo!\n"
   });
 
+  carregarPagina();
 
   
   const storage = StorageFactory();
@@ -47,6 +48,10 @@ window.onload = () => {
   document.getElementById("btn-executar").onclick = app.executar;
   document.getElementById("btn-proximo").onclick = app.proximoDesafio;
   document.getElementById("btn-anterior").onclick = app.desafioAnterior;
+
+  document.querySelectorAll(".header-nav a").forEach(a => {
+    a.addEventListener("click", irPara);
+  });
   
   document.addEventListener("keydown",  function(e) {
 
@@ -60,3 +65,30 @@ window.onload = () => {
 
   document.getElementById("btn-limpar-console").onclick = output.clear;
 };
+
+function irPara(ev) {
+  ev.preventDefault();
+  const pagina = ev.currentTarget.dataset.page;
+  location.hash = pagina;
+}
+
+window.addEventListener("hashchange", carregarPagina);
+
+
+
+function carregarPagina() {
+
+  const pagina = location.hash.replace("#", "") || "home";
+  
+  document.querySelectorAll(".page").forEach(p => {
+    p.classList.remove("active");
+  });
+
+  const destino = document.getElementById(`pg-${pagina}`);
+
+  console.log("destino", destino)
+
+  if (destino) {
+    destino.classList.add("active");
+  }
+}
