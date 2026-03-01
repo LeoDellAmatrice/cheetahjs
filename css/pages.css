@@ -171,6 +171,7 @@
 .home-left {
     display: grid;
     grid-template-columns: 3fr 2fr;
+    grid-template-rows: 1fr auto auto 1fr;
     gap: 20px;
 }
 
@@ -178,15 +179,12 @@
     grid-column: span 2
 }
 
-.home-intro h2 {
-    color: var(--primary-color);
+.home-roadmap {
+    grid-row: span 2;
 }
 
-.progress-bar-number {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
+.home-intro h2 {
+    color: var(--primary-color);
 }
 
 .home-progress .progress-bar {
@@ -206,7 +204,8 @@
     transition: width 0.3s ease;
 }
 
-.progress-number {
+.user-level, .progress-number {
+    text-align: center;
     text-wrap: nowrap;
 }
 
