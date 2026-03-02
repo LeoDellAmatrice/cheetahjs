@@ -31,8 +31,8 @@
         <div class="header-left">
             <img class="img-logo" src="assets/img/logo_01js.png" alt="Logo" width="42" height="42">
             <div class="header-text">
-            <h1>CheetahJS</h1>
-            <span class="subtitle">Menos decorar. Mais entender.</span>
+                <h1>CheetahJS</h1>
+                <span class="subtitle">Menos decorar. Mais entender.</span>
             </div>
         </div>
 
@@ -41,18 +41,13 @@
                 <a id="nav-home" href="#" data-page="home">Home</a>
                 <a id="nav-editor" href="#" data-page="editor">Editor</a>
             </nav>
-    
-            <img id="icon-setting"
-                src="assets/img/settings-gear.svg"
-                alt="Abrir configurações"
-                role="button"
-                tabindex="0"
-                width="28"
-                height="28">
+
+            <img id="icon-setting" src="assets/img/settings-gear.svg" alt="Abrir configurações" role="button"
+                tabindex="0" width="28" height="28">
         </div>
     </header>
     <div class="header-status" id="header-status"></div>
-    
+
 
 
     <div id="toast-container"></div>
@@ -61,133 +56,253 @@
     <main>
         <section id="pg-home" class="page pg-home">
             <div class="home-grid">
-            <!-- ESQUERDA (60%) -->
-            <div class="home-left">
+                <!-- ESQUERDA (60%) -->
+                <div class="home-left">
 
-                <div class="card home-intro">
-                <h2>Bem-vindo ao CheetahJS</h2>
-                <p>
-                    Plataforma interativa para praticar lógica com JavaScript.
-                    Resolva desafios progressivos e evolua seu raciocínio.
-                </p>
+                    <div class="card home-intro">
+                        <h2>Bem-vindo ao CheetahJS</h2>
+                        <p>
+                            Plataforma interativa para praticar lógica com JavaScript.
+                            Resolva desafios progressivos e evolua seu raciocínio.
+                        </p>
 
-                <button onclick="location.hash='editor'">
-                    Ir para o Editor →
-                </button>
-                </div>
-
-                <div class="card home-progress">
-                    <h3>📊 Seu Progresso</h3>
-
-                    <p class="user-level">
-                        Nível: <strong>Mestre Cheetah 🐆</strong>
-                    </p>
-
-                    <div class="progress-bar">
-                        <div class="progress-fill"></div>
+                        <button onclick="location.hash='editor'">
+                            Ir para o Editor →
+                        </button>
                     </div>
 
+                    <div class="card home-progress">
+                        <h3>📊 Seu Progresso</h3>
 
-                    <small class="progress-number">
+                        <p class="user-level">
+                            Nível: <strong>Mestre Cheetah 🐆</strong>
+                        </p>
+
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+
+
+                        <small class="progress-number">
                             4 de 10 desafios concluídos (40%)
-                    </small>
+                        </small>
 
-                </div>
-
-                
-                <div class="card home-roadmap">
-                    <h3>🗺️ Trilha de Aprendizado</h3>
-                    
-                    <ul class="roadmap-list">
-                        <li class="done">✔ Variáveis</li>
-                        <li class="done">✔ Condicionais</li>
-                        <li>⬜ Laços</li>
-                        <li>⬜ Funções</li>
-                        <li>⬜ Arrays</li>
-                    </ul>
-                </div>
-                
-                <div class="card home-continue">
-                    <h3>🚀 Continue de onde parou</h3>
-                    <p class="current-title">Desafio 5 — Funções Básicas</p>
-                    <button onclick="location.hash='editor'">
-                        Continuar →
-                    </button>
-                </div>
-                
-                <div class="card home-challenges">
-                <h3>Selecionar Desafio</h3>
-
-                <div class="challenge-list">
-                    <button onclick="alert('não implementado')">Desafio 1</button>
-                    <button onclick="alert('não implementado')">Desafio 2</button>
-                    <button onclick="alert('não implementado')">Desafio 3</button>
-                    <button onclick="alert('não implementado')">Desafio 4</button>
-                </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- DIREITA (40%) -->
-            <div class="home-right">
-
-                <div class="card home-info">
-                    <h3>Sobre a Plataforma</h3>
-                    <p>
-                        CheetahJS foi criado para ajudar no desenvolvimento
-                        do pensamento lógico através da prática.
-                    </p>
-
-                    <ul>
-                        <li>✔ Editor com destaque de sintaxe</li>
-                        <li>✔ Console integrado</li>
-                        <li>✔ Navegação rápida por desafios</li>
-                    </ul>
-                </div>
-
-                <div class="card home-shortcuts">
-                    <h3>Atalhos</h3>
-
-                    <div class="shortcut-item">
-                        <span>Executar código</span>
-                        <kbd>Ctrl + Enter</kbd>
                     </div>
 
-                    <div class="shortcut-item">
-                        <span>Próximo desafio</span>
-                        <kbd>Ctrl + →</kbd>
+                    <div class="card home-continue">
+
+                        <div class="continue-header">
+                            <h3>🚀 Continue de onde parou</h3>
+                            <span class="continue-tag">Em andamento</span>
+                        </div>
+
+                        <div class="continue-body">
+                            <p class="continue-module">Módulo: Funções</p>
+                            <h4 class="continue-title">Desafio 5 — Funções Básicas</h4>
+                        </div>
+
+                        <button class="continue-button" onclick="location.hash='editor'">
+                            Continuar desafio →
+                        </button>
+
                     </div>
 
-                    <div class="shortcut-item">
-                        <span>Desafio anterior</span>
-                        <kbd>Ctrl + ←</kbd>
+                    <div class="card home-focus">
+                        <h3>🎯 Modulo Atual</h3>
+
+                        <h4 class="focus-title">Laços de Repetição</h4>
+
+                        <div class="focus-progress">
+                            <div class="focus-bar">
+                                <div class="focus-fill" style="width: 50%;"></div>
+                            </div>
+                            <small class="focus-number">2 de 4 desafios concluídos</small>
+                        </div>
+                    </div>
+
+
+                    <div class="card home-modules">
+
+                        <!-- COLUNA ESQUERDA -->
+                        <div class="modules-sidebar">
+
+                            <div class="module-item active" data-module="1">
+                                📦 Fundamentos
+                            </div>
+
+                            <div class="module-item" data-module="2">
+                                📦 Estruturas de Controle
+                            </div>
+
+                            <div class="module-item" data-module="3">
+                                📦 Laços
+                            </div>
+
+                            <div class="module-item" data-module="4">
+                                📦 Funções
+                            </div>
+
+                            <div class="module-item" data-module="5">
+                                📦 Arrays
+                            </div>
+                            <div class="module-item" data-module="5">
+                                📦 Arrays
+                            </div>
+                            <div class="module-item" data-module="5">
+                                📦 Arrays
+                            </div>
+                            <div class="module-item" data-module="5">
+                                📦 Arrays
+                            </div>
+                            <div class="module-item" data-module="5">
+                                📦 Arrays
+                            </div>
+
+                        </div>
+
+                        <!-- COLUNA DIREITA -->
+                        <div class="module-content-area">
+                            <div class="module-header-right">
+                                <h3>Fundamentos</h3>
+                                <small>3 de 5 concluídos</small>
+                            </div>
+                            <div class="module-content active" data-module="1">
+
+                                <div class="challenge-card done">
+                                    <div class="challenge-info">
+                                        <h4>Desafio 1 — Variáveis</h4>
+                                    </div>
+                                    <div class="challenge-status">
+                                        Concluído
+                                    </div>
+                                </div>
+
+                                <div class="challenge-card done">
+                                    <div class="challenge-info">
+                                        <h4>Desafio 2 — Tipos de Dados</h4>
+                                    </div>
+                                    <div class="challenge-status">
+                                        Concluído
+                                    </div>
+                                </div>
+
+                                <div class="challenge-card current">
+                                    <div class="challenge-info">
+                                        <h4>Desafio 3 — Operadores</h4>
+                                    </div>
+                                    <div class="challenge-status">
+                                        Em andamento
+                                    </div>
+                                </div>
+
+                                <div class="challenge-card locked">
+                                    <div class="challenge-info">
+                                        <h4>Desafio 4 — If / Else</h4>
+                                    </div>
+                                    <div class="challenge-status">
+                                        Bloqueado
+                                    </div>
+                                </div>
+                                <div class="challenge-card locked">
+                                    <div class="challenge-info">
+                                        <h4>Desafio 4 — If / Else</h4>
+                                    </div>
+                                    <div class="challenge-status">
+                                        Bloqueado
+                                    </div>
+                                </div>
+                                <div class="challenge-card locked">
+                                    <div class="challenge-info">
+                                        <h4>Desafio 4 — If / Else</h4>
+                                    </div>
+                                    <div class="challenge-status">
+                                        Bloqueado
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="module-content" data-module="2">
+                                <div class="challenge-card locked">
+                                    <div class="challenge-info">
+                                        <h4>Desafio 4 — If / Else</h4>
+                                    </div>
+                                    <div class="challenge-status">
+                                        Bloqueado
+                                    </div>
+                                </div>
+                                <div class="challenge-card locked">
+                                    <div class="challenge-info">
+                                        <h4>Desafio 5 — Switch</h4>
+                                    </div>
+                                    <div class="challenge-status">
+                                        Bloqueado
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DIREITA (40%) -->
+                <div class="home-right">
+
+                    <div class="card home-info">
+                        <h3>Sobre a Plataforma</h3>
+                        <p>
+                            CheetahJS foi criado para ajudar no desenvolvimento
+                            do pensamento lógico através da prática.
+                        </p>
+
+                        <ul>
+                            <li>✔ Editor com destaque de sintaxe</li>
+                            <li>✔ Console integrado</li>
+                            <li>✔ Navegação rápida por desafios</li>
+                        </ul>
+                    </div>
+
+                    <div class="card home-shortcuts">
+                        <h3>Atalhos</h3>
+
+                        <div class="shortcut-item">
+                            <span>Executar código</span>
+                            <kbd>Ctrl + Enter</kbd>
+                        </div>
+
+                        <div class="shortcut-item">
+                            <span>Próximo desafio</span>
+                            <kbd>Ctrl + →</kbd>
+                        </div>
+
+                        <div class="shortcut-item">
+                            <span>Desafio anterior</span>
+                            <kbd>Ctrl + ←</kbd>
+                        </div>
+
                     </div>
 
                 </div>
-
             </div>
 
-            </div>
 
         </section>
 
-        <section id="pg-editor" class="page pg-editor active "> 
+        <section id="pg-editor" class="page pg-editor active ">
             <!-- TROCAR PAGINA ATIVA APOS PAGINA HOME PRONTA -->
 
             <section id="desafio" class="card">
                 <div class="card-desafio">
-                    <button id="btn-anterior"> &lt;&lt;  Desafio Anterior</button>
+                    <button id="btn-anterior"> &lt;&lt; Desafio Anterior</button>
                     <h2 id="desafio-number">Loading...</h2>
                     <button id="btn-proximo">Próximo Desafio >></button>
                 </div>
-                <h2 id="titulo" >Aguarde um Momento...</h2>
+                <h2 id="titulo">Aguarde um Momento...</h2>
                 <h3>Instruções:</h3>
                 <p id="instrucoes"></p>
-    
+
             </section>
-    
+
             <section class="console-section">
                 <div class="console card">
                     <div class="header-card">
@@ -199,7 +314,7 @@
                     </div>
                 </div>
             </section>
-    
+
             <section class="workspace">
                 <div class="editor card">
                     <div class="header-card">
@@ -211,7 +326,7 @@
                     <!-- Div container do CodeMirror -->
                     <div id="editor"></div>
                 </div>
-                
+
             </section>
 
         </section>
@@ -219,16 +334,12 @@
     </main>
 
     <footer class="app-footer">
-        © 
-        <a href="https://github.com/leodellamatrice/"
-            target="_blank"
-            rel="noopener noreferrer">
+        ©
+        <a href="https://github.com/leodellamatrice/" target="_blank" rel="noopener noreferrer">
             Leonardo Dell'Amatrice Silva
         </a>
-         · Editor baseado em
-        <a href="https://codemirror.net/"
-            target="_blank"
-            rel="noopener noreferrer">
+        · Editor baseado em
+        <a href="https://codemirror.net/" target="_blank" rel="noopener noreferrer">
             CodeMirror
         </a>
         (MIT)

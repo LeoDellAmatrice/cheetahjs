@@ -171,15 +171,15 @@
 .home-left {
     display: grid;
     grid-template-columns: 3fr 2fr;
-    grid-template-rows: 1fr auto auto 1fr;
+    grid-template-rows: auto 1fr 1fr auto;
     gap: 20px;
 }
 
-.home-intro, .home-challenges {
+.home-intro, .home-modules {
     grid-column: span 2
 }
 
-.home-roadmap {
+.home-continue {
     grid-row: span 2;
 }
 
@@ -209,12 +209,48 @@
     text-wrap: nowrap;
 }
 
-/* LISTA DE DESAFIOS */
+/* ===== CARD MODULO ATUAL ===== */
 
-.challenge-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+.home-focus {
+    display: flex;
+    flex-direction: column;
     gap: 10px;
+}
+
+/* Nome do módulo */
+.focus-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Barra de progresso */
+
+.focus-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 5px;
+}
+
+.focus-bar {
+    width: 100%;
+    height: 6px;
+    background-color: #2c2c2c;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.focus-fill {
+    height: 100%;
+    background-color: #4CAF50;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+.focus-number {
+    text-align: center;
 }
 
 /* LADO DIREITO */
@@ -225,6 +261,7 @@
     gap: 20px;
 }
 
+/* CARD SOBRE */
 .home-info ul {
     margin-top: 10px;
     padding-left: 18px;
@@ -232,20 +269,6 @@
 
 .home-info li {
     margin-bottom: 6px;
-}
-
-
-.roadmap-list {
-    list-style: none;
-    padding: 0;
-}
-
-.roadmap-list li {
-    margin: 6px 0;
-}
-
-.done {
-    color: #4CAF50;
 }
 
 /* SHORTCUTS */
@@ -268,4 +291,116 @@ kbd {
     border-radius: 6px;
     font-size: 12px;
     border: 1px solid #333;
+}
+
+
+
+.home-modules {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    border: 1px solid #2c2c2c;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* ESQUERDA */
+.modules-sidebar {
+    background-color: #181818;
+    border-right: 1px solid #2c2c2c;
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    overflow-y: auto;
+}
+
+.module-item {
+    padding: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+    border-left: 4px solid #222;
+}
+
+.module-item:hover {
+    background-color: #222;
+    border-left: 4px solid #414141;
+}
+
+.module-item.active {
+    background-color: #1e1e1e;
+    border-left: 4px solid #4CAF50;
+}
+
+/* DIREITA */
+.module-content-area {
+    padding-left: 16px;
+    height: 300px;
+    overflow-y: auto;
+}
+
+.module-header-right{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 8px;
+}
+
+.module-content {
+    display: none;
+}
+
+.module-content.active {
+    display: block;
+}
+
+/* ===== CHALLENGE CARD ===== */
+
+.challenge-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    background-color: #1e1e1e;
+    border: 1px solid #2c2c2c;
+    transition: 0.2s ease;
+    cursor: pointer;
+}
+
+.challenge-card:hover {
+    transform: translateY(2px);
+    border-color: #4CAF50;
+}
+
+/* LADO ESQUERDO */
+.challenge-info h4 {
+    margin: 0;
+    font-size: 15px;
+}
+
+/* STATUS VISUAL */
+.challenge-card.done {
+    border-left: 4px solid #4CAF50;
+}
+
+.challenge-card.current {
+    border-left: 4px solid #2196F3;
+}
+.challenge-card.current:hover {
+    border-color: #2196F3;
+}
+
+.challenge-card.locked {
+    border-left: 4px solid #555;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+.challenge-card.locked:hover {
+    border-color: #555;
+}
+
+/* TEXTO DO STATUS */
+.challenge-status {
+    font-size: 13px;
+    font-weight: 500;
+    text-wrap: nowrap;
 }

@@ -92,3 +92,22 @@ function carregarPagina() {
     destino.classList.add("active");
   }
 }
+
+const modules = document.querySelectorAll(".module-item")
+const contents = document.querySelectorAll(".module-content")
+
+modules.forEach(module => {
+    module.addEventListener("click", () => {
+
+        // remove active de todos
+        modules.forEach(m => m.classList.remove("active"))
+        contents.forEach(c => c.classList.remove("active"))
+
+        // ativa o clicado
+        module.classList.add("active")
+
+        const id = module.dataset.module
+        document.querySelector(`.module-content[data-module="${id}"]`)
+            .classList.add("active")
+    })
+})
