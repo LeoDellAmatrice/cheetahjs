@@ -183,9 +183,44 @@
     grid-row: span 2;
 }
 
-.home-intro h2 {
+/* ===== HOME INTRO ===== */
+
+.home-intro .intro-title {
     color: var(--primary-color);
 }
+
+.home-intro {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 10px;
+}
+
+.intro-left{
+    text-align: center;
+}
+
+.intro-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.intro-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.intro-highlight {
+    text-align: center;
+    padding: 5px;
+    background-color: var(--back2-color);
+    border-radius: 10px;
+    border: 1px solid #222
+}
+
+
+/* ====== HOME PROGRESS ====== */
 
 .home-progress .progress-bar {
     width: 100%;
@@ -207,6 +242,16 @@
 .user-level, .progress-number {
     text-align: center;
     text-wrap: nowrap;
+}
+
+/* ====== CARD CONTINUE ======== */
+
+.home-continue {
+    display: flex;
+    justify-content: space-between;
+}
+.continue-body {
+    text-align: center;
 }
 
 /* ===== CARD MODULO ATUAL ===== */
