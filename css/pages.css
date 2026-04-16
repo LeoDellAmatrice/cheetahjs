@@ -405,7 +405,7 @@ kbd {
 
 /* ESQUERDA */
 .modules-sidebar {
-    background-color: #181818;
+    background-color: var(--back2-color);
     border-right: 1px solid #2c2c2c;
     display: flex;
     flex-direction: column;
@@ -421,12 +421,12 @@ kbd {
 }
 
 .module-item:hover {
-    background-color: #222;
+    background-color: var(--back-hover-color);
     border-left: 4px solid #414141;
 }
 
 .module-item.active {
-    background-color: #1e1e1e;
+    background-color: var(--back-active-color);
     border-left: 4px solid #4CAF50;
 }
 
@@ -460,7 +460,7 @@ kbd {
     padding: 14px 18px;
     border-radius: 10px;
     margin-bottom: 12px;
-    background-color: #1e1e1e;
+    background-color: var(--back2-color);
     border: 1px solid #2c2c2c;
     transition: 0.2s ease;
     cursor: pointer;
