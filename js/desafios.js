@@ -2,6 +2,16 @@ function capturarFuncoesParaContext(code) {
   return code.replace(
     /function\s+([a-zA-Z_$][\w$]*)\s*\(/g,
     "sandbox.$1 = function $1("
+  ).replace(
+    /let\s+([a-zA-Z_$][\w$]*)\s*\=/g,
+    "sandbox.$1 = "
+  ).replace(
+    /const\s+([a-zA-Z_$][\w$]*)\s*=\s*([^\n;]+)/g,
+    `Object.defineProperty(sandbox, "$1", {
+      value: $2,
+      writable: false,
+      configurable: false
+    })`
   );
 }
 
@@ -34,6 +44,7 @@ function executeUserCode(code) {
     });
 
     const codigoTransformado = capturarFuncoesParaContext(code);
+    console.log(codigoTransformado)
 
     const fn = new Function(
       "sandbox",
