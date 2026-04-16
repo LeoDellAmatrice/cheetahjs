@@ -11,14 +11,14 @@ import { FeedbackService } from "./ui/FeedbackService.js"
 import { HeaderUI } from "./ui/Header.js"
 
 window.onload = () => {
+  
+  carregarPagina();
+  
   const editor = EditorFactory();
   editor.create("editor", {
     value: "// Bem-vindo!\n"
   });
 
-  carregarPagina();
-
-  
   const storage = StorageFactory();
   const desafios = DesafioFactory(storage);
 
