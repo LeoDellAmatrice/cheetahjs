@@ -44,7 +44,6 @@ function executeUserCode(code) {
     });
 
     const codigoTransformado = capturarFuncoesParaContext(code);
-    console.log(codigoTransformado)
 
     const fn = new Function(
       "sandbox",
@@ -81,8 +80,6 @@ function validarErroEsperado(code, erroEsperado, message) {
       message: "Este desafio espera que ocorra um erro."
     };
   }
-
-  console.log(exec)
 
   if (exec.error.name === erroEsperado) {
     return { ok: true, message: message};
@@ -320,7 +317,6 @@ const validators = [
   // 09 - Funções básicas
   (code) => {
     const exec = executeUserCode(code);
-    console.log(exec)
     return runRules(exec, [
       rules.exists(
         "saudacao",

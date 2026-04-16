@@ -89,8 +89,6 @@ export function AppController(editor, desafios, feedback, output) {
         try {
             const valido = desafios.validar(code);
 
-            console.log(valido)
-
             if (valido.ok) {
                 desafios.avancar();
                 editor.addToAutoComplete(desafios.getDadosUnlock());

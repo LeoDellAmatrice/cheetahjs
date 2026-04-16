@@ -86,8 +86,6 @@ function carregarPagina() {
 
   const destino = document.getElementById(`pg-${pagina}`);
 
-  console.log("destino", destino)
-
   if (destino) {
     destino.classList.add("active");
   }
