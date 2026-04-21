@@ -9,10 +9,18 @@ import { SettingsFactory } from "./core/SettingsFactory.js";
 import { AppController } from "./controllers/AppController.js";
 import { FeedbackService } from "./ui/FeedbackService.js"
 import { HeaderUI } from "./ui/Header.js"
+import { PagesControl } from "./ui/PagesControl.js";
 
 window.onload = () => {
-  
-  carregarPagina();
+
+  // Sistema de navegação interna
+  const pagesControl = PagesControl();
+  window.addEventListener("hashchange", pagesControl.loadPage);
+  pagesControl.loadPage();
+  document.querySelectorAll(".header-nav a").forEach(a => {
+    a.addEventListener("click", pagesControl.navigateTo);
+  });
+
   
   const editor = EditorFactory();
   editor.create("editor", {
@@ -49,9 +57,7 @@ window.onload = () => {
   document.getElementById("btn-proximo").onclick = app.proximoDesafio;
   document.getElementById("btn-anterior").onclick = app.desafioAnterior;
 
-  document.querySelectorAll(".header-nav a").forEach(a => {
-    a.addEventListener("click", irPara);
-  });
+
   
   document.addEventListener("keydown",  function(e) {
 
@@ -65,31 +71,6 @@ window.onload = () => {
 
   document.getElementById("btn-limpar-console").onclick = output.clear;
 };
-
-function irPara(ev) {
-  ev.preventDefault();
-  const pagina = ev.currentTarget.dataset.page;
-  location.hash = pagina;
-}
-
-window.addEventListener("hashchange", carregarPagina);
-
-
-
-function carregarPagina() {
-
-  const pagina = location.hash.replace("#", "") || "home";
-  
-  document.querySelectorAll(".page").forEach(p => {
-    p.classList.remove("active");
-  });
-
-  const destino = document.getElementById(`pg-${pagina}`);
-
-  if (destino) {
-    destino.classList.add("active");
-  }
-}
 
 const modules = document.querySelectorAll(".module-item")
 const contents = document.querySelectorAll(".module-content")
@@ -109,3 +90,7 @@ modules.forEach(module => {
             .classList.add("active")
     })
 })
+
+document.getElementById("btn-theme").onclick = (ev) => {
+  document.querySelector("html").classList.toggle("dark-mode");
+}
