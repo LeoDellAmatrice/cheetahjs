@@ -18,6 +18,8 @@ export function PagesControl() {
         if (destino) {
             destino.classList.add("active");
         }
+
+        window.dispatchEvent(new CustomEvent("pageChanged", { detail: pagina }));
     }
 
     return {

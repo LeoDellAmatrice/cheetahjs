@@ -167,6 +167,10 @@ export function EditorFactory() {
         editor.setOption("theme", theme);
     }
 
+    function refresh() {
+        editor.refresh();
+    }
+
     return {
         create,
         addToAutoComplete,
@@ -181,6 +185,7 @@ export function EditorFactory() {
         setHighlightLine,
         setClearEditor,
         clearEditor,
-        animarExecucaoCodeMirror
+        animarExecucaoCodeMirror,
+        refresh,
     };
 }

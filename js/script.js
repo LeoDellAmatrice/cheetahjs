@@ -13,19 +13,30 @@ import { PagesControl } from "./ui/PagesControl.js";
 
 window.onload = () => {
 
-  // Sistema de navegação interna
-  const pagesControl = PagesControl();
-  window.addEventListener("hashchange", pagesControl.loadPage);
-  pagesControl.loadPage();
-  document.querySelectorAll(".header-nav a").forEach(a => {
-    a.addEventListener("click", pagesControl.navigateTo);
-  });
-
-  
+  // Inicialização do editor
   const editor = EditorFactory();
   editor.create("editor", {
     value: "// Bem-vindo!\n"
   });
+
+  // Atualiza o editor ao navegar para a página do editor
+  window.addEventListener("pageChanged", (ev) => {
+    const page = ev.detail;
+    if (page !== "editor") return;
+
+    editor.refresh();
+    setInterval(() => {editor.refresh()}, 500);
+  });
+  
+  // Sistema de navegação interna
+  const pagesControl = PagesControl();
+  window.addEventListener("hashchange", pagesControl.loadPage);
+  document.querySelectorAll(".header-nav a").forEach(a => {
+    a.addEventListener("click", pagesControl.navigateTo);
+  });
+  pagesControl.loadPage();
+  
+
 
   const storage = StorageFactory();
   const desafios = DesafioFactory(storage);
