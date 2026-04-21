@@ -141,8 +141,6 @@ export function SettingsModalFactory(SettingsFactory) {
 
         const settings = settingsStore.getAll()
 
-        console.log(settings)
-
         document.getElementById('config-theme-editor').value = settings.theme;
 
         document.getElementById('config-theme-site').value = settings.themeSite;
