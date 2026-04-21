@@ -35,6 +35,7 @@ window.onload = () => {
     a.addEventListener("click", pagesControl.navigateTo);
   });
   pagesControl.loadPage();
+  pagesControl.setPageTheme();
   
 
 
@@ -46,7 +47,7 @@ window.onload = () => {
 
   const feedback = FeedbackService(feedbackToast, feedbackHeader);
   
-  const Settings = SettingsFactory(editor, desafios, feedback);
+  const Settings = SettingsFactory(editor, desafios, feedback, pagesControl);
   const SettingsModal = SettingsModalFactory(Settings);
 
   Settings.applyAll()
@@ -101,7 +102,3 @@ modules.forEach(module => {
             .classList.add("active")
     })
 })
-
-document.getElementById("btn-theme").onclick = (ev) => {
-  document.querySelector("html").classList.toggle("dark-mode");
-}

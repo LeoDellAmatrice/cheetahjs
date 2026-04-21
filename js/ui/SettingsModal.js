@@ -30,9 +30,17 @@ export function SettingsModalFactory(SettingsFactory) {
 
                 <div class="config-item">
                 <span>Tema do Editor</span>
-                <select class="config-select" id="config-theme">
+                <select class="config-select" id="config-theme-editor">
                     <option value="Default">Light</option>
                     <option value="railscasts" selected>Dark</option>
+                </select>
+                </div>
+
+                <div class="config-item">
+                <span>Tema do Site</span>
+                <select class="config-select" id="config-theme-site">
+                    <option value="light-mode">Light</option>
+                    <option value="dark-mode" selected>Dark</option>
                 </select>
                 </div>
 
@@ -133,7 +141,11 @@ export function SettingsModalFactory(SettingsFactory) {
 
         const settings = settingsStore.getAll()
 
-        document.getElementById('config-theme').value = settings.theme;
+        console.log(settings)
+
+        document.getElementById('config-theme-editor').value = settings.theme;
+
+        document.getElementById('config-theme-site').value = settings.themeSite;
 
         document.getElementById("config-font-size").value = settings.fontSize;
 
@@ -156,8 +168,12 @@ export function SettingsModalFactory(SettingsFactory) {
 
         document.getElementById("config-reset-desafio").onclick = SettingsFactory.resetDesafio;
 
-        document.getElementById('config-theme').onchange = (e) => {
+        document.getElementById('config-theme-editor').onchange = (e) => {
             SettingsFactory.update('theme', e.target.value);
+        };
+
+        document.getElementById('config-theme-site').onchange = (e) => {
+            SettingsFactory.update('themeSite', e.target.value);
         };
 
         document.getElementById('config-font-size').onchange = (e) => {

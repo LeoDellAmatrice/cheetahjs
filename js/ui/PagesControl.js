@@ -8,7 +8,7 @@ export function PagesControl() {
 
     function loadPage() {
         const pagina = location.hash.replace("#", "") || "home";
-        
+
         document.querySelectorAll(".page").forEach(p => {
             p.classList.remove("active");
         });
@@ -22,8 +22,14 @@ export function PagesControl() {
         window.dispatchEvent(new CustomEvent("pageChanged", { detail: pagina }));
     }
 
+    function setPageTheme(theme = 'dark-mode') {
+        document.querySelector("html").classList.remove('light-mode', 'dark-mode');
+        document.querySelector("html").classList.add(theme);
+    }
+
     return {
         navigateTo,
         loadPage,
+        setPageTheme,
     }
 } 

@@ -1,5 +1,6 @@
 const DEFAULT_SETTINGS = {
   theme: 'railscasts',
+  themeSite: 'dark-mode',
   fontSize: 16,
   autocomplete: true,
   highlightLine: true,
