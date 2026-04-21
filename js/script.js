@@ -25,7 +25,7 @@ window.onload = () => {
     if (page !== "editor") return;
 
     editor.refresh();
-    setInterval(() => {editor.refresh()}, 500);
+    setTimeout(() => {editor.refresh()}, 500);
   });
   
   // Sistema de navegação interna
