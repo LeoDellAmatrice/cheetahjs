@@ -30,14 +30,9 @@ window.onload = () => {
   
   // Sistema de navegação interna
   const pagesControl = PagesControl();
-  window.addEventListener("hashchange", pagesControl.loadPage);
-  document.querySelectorAll(".header-nav a").forEach(a => {
-    a.addEventListener("click", pagesControl.navigateTo);
-  });
   pagesControl.loadPage();
   pagesControl.setPageTheme();
   
-
 
   const storage = StorageFactory();
   const desafios = DesafioFactory(storage);

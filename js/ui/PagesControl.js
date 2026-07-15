@@ -1,5 +1,10 @@
 export function PagesControl() {
 
+    window.addEventListener("hashchange", loadPage);
+    document.querySelectorAll(".header-nav a").forEach(a => {
+        a.addEventListener("click", navigateTo);
+    });
+
     function navigateTo(ev) {
         ev.preventDefault();
         const pagina = ev.currentTarget.dataset.page;
