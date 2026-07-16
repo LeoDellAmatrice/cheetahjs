@@ -5,10 +5,10 @@ export function AppController(editor, desafios, feedback, output) {
     const errorTranslator = ErrorTranslator();
 
     function carregarDesafio() {
-        const dados = desafios.getDados();
+        const dados = desafios.getDesafio();
 
-        document.getElementById("desafio-number").textContent =
-            `Desafio ${desafios.getDesafioAtual() + 1}`;
+        // document.getElementById("desafio-number").textContent =
+        //     `Desafio ${ -1 + 1}`;
 
         document.getElementById("titulo").textContent = dados.titulo;
         document.getElementById("instrucoes").textContent = dados.instrucoes;

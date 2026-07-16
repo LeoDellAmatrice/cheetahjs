@@ -10,7 +10,7 @@ import { AppController } from "./controllers/AppController.js";
 import { FeedbackService } from "./ui/FeedbackService.js"
 import { HeaderUI } from "./ui/Header.js"
 import { PagesControl } from "./ui/PagesControl.js";
-import { ModulosDesafios } from "./ui/ModulosDesafios.js";
+import { LoadHomeModuloDesafios } from "./ui/ModulosDesafios.js";
 
 window.onload = () => {
 
@@ -37,7 +37,7 @@ window.onload = () => {
 
   const storage = StorageFactory();
   const desafios = DesafioFactory(storage);
-  const modulosDesafios = ModulosDesafios(desafios);
+  const HomeModuloDesafios = LoadHomeModuloDesafios(desafios);
 
   const feedbackToast = Feedback();
   const feedbackHeader = HeaderUI();

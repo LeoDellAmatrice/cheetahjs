@@ -6,29 +6,29 @@ export function DesafioFactory(storage) {
   let desafioAtual = storage.get();
 
 
-  function getDesafioAtual() {
-    return desafioAtual;
+  function getDesafio(indexModulo = moduloAtual, indexDesafio = desafioAtual) {
+    return Modulos[indexModulo].Desafios[indexDesafio];
   }
 
-  function getModuloAtual() {
-    return moduloAtual;
+  function getDesafios(indexModulo = moduloAtual) {
+    return Modulos[indexModulo].Desafios;
   }
 
-  function getAllModulos() {
+  function getModulo(indexModulo = moduloAtual) {
+    return Modulos[indexModulo];
+  }
+
+  function getModulos() {
     return Modulos;
   }
 
-  function isTypeError(){
-    
-    if (Modulos[moduloAtual].Desafios[desafioAtual].tipo === "erro-didatico"){
-      return true
-    }
-
-    return false 
+  function setDesafioAtual(indexModulo, indexDesafio) {
+    moduloAtual = indexModulo;
+    desafioAtual = indexDesafio;
   }
 
-  function getDados() {
-    return Modulos[moduloAtual].Desafios[desafioAtual];
+  function isTypeError(){
+    return Modulos[moduloAtual].Desafios[desafioAtual].tipo === "erro-didatico"
   }
 
   function getDadosUnlock(){
@@ -83,10 +83,11 @@ export function DesafioFactory(storage) {
   }
 
   return {
-    getDesafioAtual,
-    getModuloAtual,
-    getAllModulos,
-    getDados,
+    getDesafio,
+    getDesafios,
+    getModulo,
+    getModulos,
+    setDesafioAtual,
     getAllUnlock,
     getDadosUnlock,
     podeAvancar,
