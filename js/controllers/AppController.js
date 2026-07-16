@@ -8,7 +8,7 @@ export function AppController(editor, desafios, feedback, output) {
         const dados = desafios.getDados();
 
         document.getElementById("desafio-number").textContent =
-            `Desafio ${desafios.getAtual() + 1}`;
+            `Desafio ${desafios.getDesafioAtual() + 1}`;
 
         document.getElementById("titulo").textContent = dados.titulo;
         document.getElementById("instrucoes").textContent = dados.instrucoes;
@@ -110,19 +110,19 @@ export function AppController(editor, desafios, feedback, output) {
     function proximoDesafio() {
         if (!desafios.podeAvancar()) {
             feedback.show(
-                `Complete o desafio ${desafios.getAtual() + 1} antes de continuar`,
+                `Complete o desafio ${desafios.getDesafioAtual() + 1} antes de continuar`,
                 "error"
             );
             return;
         }
 
-        desafios.proximo();
+        desafios.proximoDesafio();
         editor.clearEditor();
         carregarDesafio();
     }
 
     function desafioAnterior() {
-        desafios.anterior();
+        desafios.anteriorDesafio();
         carregarDesafio();
     }
 

@@ -151,6 +151,11 @@ const rules = {
   }
 };
 
+export function validator_base(code, rules) {
+  const exec = executeUserCode(code);
+  return runRules(exec, rules);
+}
+
 
 const validators = [
   // 01 - Olá Mundo
@@ -445,3 +450,41 @@ export const Desafios = [
   }
 ];
 
+
+
+export const Modulos = [
+  {
+    title: "Introdução",
+    description: "Aprenda os conceitos básicos de programação com JavaScript.",
+    icon: "",
+    Desafios: [
+      {
+        titulo: "Olá Mundo",
+        instrucoes: "Use console.log para imprimir a mensagem 'Olá, Mundo!' na tela.",
+        tip:"💡 Dica: console.log('texto') serve para mostrar algo na tela.",
+        unlockComplete: ['console', '.log', 'log'],
+        validar: [
+          rules.consoleIncludes(
+            "Olá, Mundo",
+            "Use console.log para imprimir 'Olá, Mundo!'."
+          )]
+      },
+      {
+        titulo: "Criando variáveis",
+        instrucoes: "Crie uma variável chamada nome e atribua a ela o valor 'Maria'.",
+        tip: "💡 Dica: variáveis são criadas com let ou const. Exemplo: let idade = 25;",
+        unlockComplete: ['let', 'const'],
+        validar: [
+          rules.exists(
+            "nome",
+            "A variável nome não foi criada."
+          ),
+          rules.equals(
+            "nome",
+            "Maria",
+            "A variável nome deve ter o valor 'Maria'."
+          )]
+      }
+    ]
+  }
+]
