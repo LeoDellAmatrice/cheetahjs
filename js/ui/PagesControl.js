@@ -2,12 +2,16 @@ export function PagesControl() {
 
     window.addEventListener("hashchange", loadPage);
     document.querySelectorAll(".header-nav a").forEach(a => {
-        a.addEventListener("click", navigateTo);
+        a.addEventListener("click", BTNnavigateTo);
     });
 
-    function navigateTo(ev) {
+    function BTNnavigateTo(ev) {
         ev.preventDefault();
         const pagina = ev.currentTarget.dataset.page;
+        location.hash = pagina;
+    }
+
+    function navigateTo(pagina) {
         location.hash = pagina;
     }
 
@@ -31,6 +35,9 @@ export function PagesControl() {
         document.querySelector("html").classList.remove('light-mode', 'dark-mode');
         document.querySelector("html").classList.add(theme);
     }
+
+    loadPage();
+    setPageTheme();
 
     return {
         navigateTo,

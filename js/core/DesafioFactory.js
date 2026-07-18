@@ -1,4 +1,3 @@
-import { Desafios } from "../desafios.js";
 import { Modulos, validator_base } from "../desafios.js";
 
 export function DesafioFactory(storage) {
@@ -28,11 +27,11 @@ export function DesafioFactory(storage) {
   }
 
   function isTypeError(){
-    return Modulos[moduloAtual].Desafios[desafioAtual].tipo === "erro-didatico"
+    return getDesafio().tipo === "erro-didatico"
   }
 
   function getDadosUnlock(){
-    return Modulos[moduloAtual].Desafios[desafioAtual].unlockComplete || []
+    return getDesafio().unlockComplete || []
   }
 
   function getAllUnlock(){
@@ -40,7 +39,7 @@ export function DesafioFactory(storage) {
     let listAllUnlock = []
 
     for (let i = 0; i<=Number(desafioAtual)-1;i++){
-      Desafios[i].unlockComplete?.forEach(word => {
+      getDesafios().unlockComplete?.forEach(word => {
         listAllUnlock.push(word)
       });
     }
@@ -53,13 +52,13 @@ export function DesafioFactory(storage) {
   }
 
   function avancar() {
-    if (desafioAtual < Modulos[moduloAtual].Desafios.length - 1) {
+    if (desafioAtual < getDesafios().length - 1) {
       storage.set(desafioAtual+1);
     }
   }
 
   function proximoDesafio() {
-    if (desafioAtual < Modulos[moduloAtual].Desafios.length - 1) {
+    if (desafioAtual < getDesafios().length - 1) {
       desafioAtual++;
     }
   }
@@ -69,11 +68,11 @@ export function DesafioFactory(storage) {
   }
 
   function validar(codigo) {
-    return validator_base(codigo, Modulos[moduloAtual].Desafios[desafioAtual].validar);
+    return validator_base(codigo, getDesafio().validar);
   }
 
   function isUltimo() {
-    return desafioAtual >= Modulos[moduloAtual].Desafios.length - 1;
+    return desafioAtual >= getDesafios().length - 1;
   }
 
   function resetAll(){

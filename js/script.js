@@ -16,9 +16,6 @@ window.onload = () => {
 
   // Inicialização do editor
   const editor = EditorFactory();
-  editor.create("editor", {
-    value: "// Bem-vindo!\n"
-  });
 
   // Atualiza o editor ao navegar para a página do editor
   window.addEventListener("pageChanged", (ev) => {
@@ -31,13 +28,10 @@ window.onload = () => {
   
   // Sistema de navegação interna
   const pagesControl = PagesControl();
-  pagesControl.loadPage();
-  pagesControl.setPageTheme();
-  
 
   const storage = StorageFactory();
   const desafios = DesafioFactory(storage);
-  const HomeModuloDesafios = LoadHomeModuloDesafios(desafios);
+  const HomeModuloDesafios = LoadHomeModuloDesafios(desafios, pagesControl);
 
   const feedbackToast = Feedback();
   const feedbackHeader = HeaderUI();
@@ -47,16 +41,12 @@ window.onload = () => {
   const Settings = SettingsFactory(editor, desafios, feedback, pagesControl);
   const SettingsModal = SettingsModalFactory(Settings);
 
-  Settings.applyAll()
-
   const output = Output(editor, feedback);
   const IntroModal = IntroModalFactory();
 
-  IntroModal.needOpen();
-
   editor.addToAutoComplete(desafios.getAllUnlock())
 
-  const app = AppController(editor, desafios, feedback, output);
+  const app = AppController(editor, desafios, HomeModuloDesafios, feedback, output);
 
   app.carregarDesafio();
 
@@ -80,21 +70,3 @@ window.onload = () => {
 
   document.getElementById("btn-limpar-console").onclick = output.clear;
 };
-
-const modules = document.querySelectorAll(".module-item")
-const contents = document.querySelectorAll(".module-content")
-
-modules.forEach(module => {
-  module.addEventListener("click", () => {
-
-    // remove active de todos
-    modules.forEach(m => m.classList.remove("active"))
-    contents.forEach(c => c.classList.remove("active"))
-
-    // ativa o clicado
-    module.classList.add("active")
-
-    const id = module.dataset.module
-    document.querySelector(`.module-content[data-module="${id}"]`).classList.add("active")
-  })
-})

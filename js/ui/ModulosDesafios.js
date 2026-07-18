@@ -1,6 +1,6 @@
 
 
-export function LoadHomeModuloDesafios(desafios) {
+export function LoadHomeModuloDesafios(desafios, pagesControl) {
 
     const modulosContainer = document.getElementById("modules-list");
     const desafiosContainer = document.getElementById("desafios-list");
@@ -32,7 +32,7 @@ export function LoadHomeModuloDesafios(desafios) {
             desafioCard.appendChild(status);
 
             desafioCard.dataset.challenge = index;
-            desafioCard.addEventListener("click", () => { desafios.setDesafioAtual(moduloIndex, index); });
+            desafioCard.addEventListener("click", () => { desafios.setDesafioAtual(moduloIndex, index); LoadEditorPageDesafio(); });
             desafiosContainer.appendChild(desafioCard);
         });
     }
@@ -48,6 +48,22 @@ export function LoadHomeModuloDesafios(desafios) {
         });
     }
 
+    function LoadEditorPageDesafio() {
+        const dados = desafios.getDesafio();
+
+        // document.getElementById("desafio-number").textContent =
+        //     `Desafio ${ -1 + 1}`;
+
+        document.getElementById("titulo").textContent = dados.titulo;
+        document.getElementById("instrucoes").textContent = dados.instrucoes;
+
+        pagesControl.navigateTo("editor");
+    }
+
     renderModulos();
+
+    return {
+        LoadEditorPageDesafio
+    };
 }
 

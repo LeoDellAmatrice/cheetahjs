@@ -296,6 +296,7 @@ export function IntroModalFactory() {
         btnComecar.style.display = paginaAtual === totalPaginas ? 'block' : 'none';
     };
 
+    needOpen();
 
     return {
         needOpen() {

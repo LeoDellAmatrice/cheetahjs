@@ -1,18 +1,11 @@
 import { ErrorTranslator } from "../core/ErrorTranslator.js";
 
-export function AppController(editor, desafios, feedback, output) {
+export function AppController(editor, desafios, HomeModuloDesafios, feedback, output) {
 
     const errorTranslator = ErrorTranslator();
 
     function carregarDesafio() {
-        const dados = desafios.getDesafio();
-
-        // document.getElementById("desafio-number").textContent =
-        //     `Desafio ${ -1 + 1}`;
-
-        document.getElementById("titulo").textContent = dados.titulo;
-        document.getElementById("instrucoes").textContent = dados.instrucoes;
-
+        HomeModuloDesafios.LoadEditorPageDesafio();
         output.clear();
     }
 

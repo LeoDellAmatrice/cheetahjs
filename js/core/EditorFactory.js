@@ -171,6 +171,10 @@ export function EditorFactory() {
         editor.refresh();
     }
 
+    create("editor", {
+        value: "// Bem-vindo!\n"
+    });
+
     return {
         create,
         addToAutoComplete,
