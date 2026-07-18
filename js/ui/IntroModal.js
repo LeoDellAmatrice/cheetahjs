@@ -296,14 +296,11 @@ export function IntroModalFactory() {
         btnComecar.style.display = paginaAtual === totalPaginas ? 'block' : 'none';
     };
 
-    needOpen();
+    if (!jaViuIntroducao()) {
+        showModal();
+    }
 
     return {
-        needOpen() {
-            if (!jaViuIntroducao()) {
-                showModal();
-            }
-        },
         show: showModal,
         close: closeModal
     };
