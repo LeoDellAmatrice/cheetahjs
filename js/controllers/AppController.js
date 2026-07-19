@@ -103,7 +103,7 @@ export function AppController(editor, desafios, HomeModuloDesafios, feedback, ou
     function proximoDesafio() {
         if (!desafios.podeAvancar()) {
             feedback.show(
-                `Complete o desafio ${desafios.getDesafioAtual() + 1} antes de continuar`,
+                `Complete o desafio ${desafios.getIndexDesafio() + 1} antes de continuar`,
                 "error"
             );
             return;

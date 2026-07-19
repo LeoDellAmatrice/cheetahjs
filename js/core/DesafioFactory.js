@@ -21,6 +21,10 @@ export function DesafioFactory(storage) {
     return Modulos;
   }
 
+  function getIndexDesafio() {
+    return desafioAtual;
+  }
+
   function setDesafioAtual(indexModulo, indexDesafio) {
     moduloAtual = indexModulo;
     desafioAtual = indexDesafio;
@@ -86,6 +90,7 @@ export function DesafioFactory(storage) {
     getDesafios,
     getModulo,
     getModulos,
+    getIndexDesafio,
     setDesafioAtual,
     getAllUnlock,
     getDadosUnlock,
