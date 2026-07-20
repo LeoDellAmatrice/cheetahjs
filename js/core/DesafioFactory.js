@@ -1,9 +1,8 @@
 import { Modulos, validator_base } from "../desafios.js";
 
 export function DesafioFactory(storage) {
-  let moduloAtual = 0 //storage.getModuloAtual();
-  let desafioAtual = storage.get();
-
+  let moduloAtual = 0;
+  let desafioAtual = 0;
 
   function getDesafio(indexModulo = moduloAtual, indexDesafio = desafioAtual) {
     return Modulos[indexModulo].Desafios[indexDesafio];
@@ -52,12 +51,13 @@ export function DesafioFactory(storage) {
   }
 
   function podeAvancar() {
-    return desafioAtual < storage.get();
+    console.log("desafioAtual", getModulo().id, storage.get(getModulo().id))
+    return desafioAtual < storage.get(getModulo().id).desafios;
   }
 
   function avancar() {
-    if (desafioAtual < getDesafios().length - 1) {
-      storage.set(desafioAtual+1);
+    if (desafioAtual < getDesafios().length) {
+      storage.set(getModulo().id, desafioAtual + 1, desafioAtual + 1 >= getDesafios().length);
     }
   }
 

@@ -32,7 +32,8 @@ export function LoadHomeModuloDesafios(desafios, pagesControl) {
             desafioCard.appendChild(status);
 
             desafioCard.dataset.challenge = index;
-            desafioCard.addEventListener("click", () => { desafios.setDesafioAtual(moduloIndex, index); LoadEditorPageDesafio(); });
+            desafioCard.dataset.module = moduloIndex;
+            desafioCard.addEventListener("click", () => { desafios.setDesafioAtual(desafioCard.dataset.module, desafioCard.dataset.challenge); LoadEditorPageDesafio(); });
             desafiosContainer.appendChild(desafioCard);
         });
     }

@@ -454,6 +454,7 @@ export const Desafios = [
 
 export const Modulos = [
   {
+    id: "intro",
     titulo: "Introdução",
     description: "Aprenda os conceitos básicos de programação com JavaScript.",
     icon: "",
