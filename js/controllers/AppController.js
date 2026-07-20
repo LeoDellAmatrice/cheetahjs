@@ -83,7 +83,7 @@ export function AppController(editor, desafios, HomeModuloDesafios, feedback, ou
             const valido = desafios.validar(code);
 
             if (valido.ok) {
-                desafios.avancar();
+                desafios.DesbloquarProximo();
                 editor.addToAutoComplete(desafios.getDadosUnlock());
                 feedback.show("Parabéns! Você completou o desafio.", "success");
 
@@ -101,7 +101,7 @@ export function AppController(editor, desafios, HomeModuloDesafios, feedback, ou
     }
 
     function proximoDesafio() {
-        if (!desafios.podeAvancar()) {
+        if (!desafios.proximoDesafioLivre()) {
             feedback.show(
                 `Complete o desafio ${desafios.getIndexDesafio() + 1} antes de continuar`,
                 "error"

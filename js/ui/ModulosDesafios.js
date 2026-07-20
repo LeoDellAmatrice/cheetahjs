@@ -16,7 +16,8 @@ export function LoadHomeModuloDesafios(desafios, pagesControl) {
 
         desafios.getDesafios(moduloIndex).forEach((desafio, index) => {
             const desafioCard = document.createElement("div");
-            desafioCard.className = `challenge-card done`; // done current locked
+            const statusDesafio = desafios.getDesafioStatus(moduloIndex, index);
+            desafioCard.className = `challenge-card ${statusDesafio}`; // done current locked
 
             const desafioInfo = document.createElement("div");
             desafioInfo.className = "challenge-info";
@@ -33,7 +34,9 @@ export function LoadHomeModuloDesafios(desafios, pagesControl) {
 
             desafioCard.dataset.challenge = index;
             desafioCard.dataset.module = moduloIndex;
-            desafioCard.addEventListener("click", () => { desafios.setDesafioAtual(desafioCard.dataset.module, desafioCard.dataset.challenge); LoadEditorPageDesafio(); });
+            if (statusDesafio !== "locked") {
+                desafioCard.addEventListener("click", () => { desafios.setDesafioAtual(desafioCard.dataset.module, desafioCard.dataset.challenge); LoadEditorPageDesafio(); });
+            }
             desafiosContainer.appendChild(desafioCard);
         });
     }

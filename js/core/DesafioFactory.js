@@ -24,9 +24,21 @@ export function DesafioFactory(storage) {
     return desafioAtual;
   }
 
+  function getDesafioStatus(indexModulo = moduloAtual, indexDesafio = desafioAtual) {
+    const progresso = storage.get(getModulo(indexModulo).id);
+    console.log("progresso", progresso)
+    if (indexDesafio < progresso.desafios) {
+      return "done";
+    } else if (indexDesafio === progresso.desafios) {
+      return "current";
+    } else {
+      return "locked";
+    }
+  }
+
   function setDesafioAtual(indexModulo, indexDesafio) {
-    moduloAtual = indexModulo;
-    desafioAtual = indexDesafio;
+    moduloAtual = Number(indexModulo);
+    desafioAtual = Number(indexDesafio);
   }
 
   function isTypeError(){
@@ -50,12 +62,11 @@ export function DesafioFactory(storage) {
     return listAllUnlock
   }
 
-  function podeAvancar() {
-    console.log("desafioAtual", getModulo().id, storage.get(getModulo().id))
+  function proximoDesafioLivre() {
     return desafioAtual < storage.get(getModulo().id).desafios;
   }
 
-  function avancar() {
+  function DesbloquarProximo() {
     if (desafioAtual < getDesafios().length) {
       storage.set(getModulo().id, desafioAtual + 1, desafioAtual + 1 >= getDesafios().length);
     }
@@ -91,11 +102,12 @@ export function DesafioFactory(storage) {
     getModulo,
     getModulos,
     getIndexDesafio,
+    getDesafioStatus,
     setDesafioAtual,
     getAllUnlock,
     getDadosUnlock,
-    podeAvancar,
-    avancar,
+    proximoDesafioLivre,
+    DesbloquarProximo,
     proximoDesafio,
     anteriorDesafio,
     isTypeError,
