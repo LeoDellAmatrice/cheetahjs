@@ -71,24 +71,17 @@ function executeUserCode(code) {
 }
 
 
-function validarErroEsperado(code, erroEsperado, message) {
-  const exec = executeUserCode(code);
+function validarErroEsperado(exec, erroEsperado, message) {
 
   if (exec.ok) {
-    return {
-      ok: false,
-      message: "Este desafio espera que ocorra um erro."
-    };
+    return false;
   }
 
   if (exec.error.name === erroEsperado) {
-    return { ok: true, message: message };
+    return true;
   }
 
-  return {
-    ok: false,
-    message: `O erro esperado era ${erroEsperado}, mas ocorreu ${exec.error.name}.`
-  };
+  return false;
 }
 
 function runRules(exec, rules) {
@@ -99,6 +92,15 @@ function runRules(exec, rules) {
     };
   }
 
+  for (const rule of rules) {
+    const result = rule(exec);
+    if (!result.ok) return result;
+  }
+
+  return { ok: true };
+}
+
+function runRulesErroEsperado(exec, rules) {
   for (const rule of rules) {
     const result = rule(exec);
     if (!result.ok) return result;
@@ -148,12 +150,24 @@ const rules = {
       exec.context.console.output.includes(text)
         ? { ok: true }
         : { ok: false, message };
+  },
+
+  FindError(erroEsperado, message) {
+    return (exec) =>
+      validarErroEsperado(exec, erroEsperado, message)
+        ? { ok: true }
+        : { ok: false, message };
   }
 };
 
 export function validator_base(code, rules) {
   const exec = executeUserCode(code);
   return runRules(exec, rules);
+}
+
+export function validator_erro_esperado(code, rules) {
+  const exec = executeUserCode(code);
+  return runRulesErroEsperado(exec, rules);
 }
 
 export const Modulos = [
@@ -428,9 +442,10 @@ export const Modulos = [
         erroEsperado: "ReferenceError",
         unlockComplete: [],
         validar: [
-          (code) => {
-            return validarErroEsperado(code, "ReferenceError", "ReferenceError Encontrado!")
-          }
+          rules.FindError(
+            "ReferenceError",
+            "O código deve gerar um TypeError."
+          )
         ]
       },
       {
@@ -441,9 +456,10 @@ export const Modulos = [
         erroEsperado: "TypeError",
         unlockComplete: [],
         validar: [
-          (code) => {
-            return validarErroEsperado(code, "TypeError", "TypeError Encontrado!")
-          }
+          rules.FindError(
+            "TypeError",
+            "O código deve gerar um TypeError."
+          )
         ]
       }
     ]

@@ -17,7 +17,7 @@ export function LoadHomeModuloDesafios(desafios, pagesControl) {
         desafios.getDesafios(moduloIndex).forEach((desafio, index) => {
             const desafioCard = document.createElement("div");
             const statusDesafio = desafios.getDesafioStatus(moduloIndex, index);
-            desafioCard.className = `challenge-card ${statusDesafio}`; // done current locked
+            desafioCard.className = `challenge-card ${statusDesafio.style}`; // done current locked
 
             const desafioInfo = document.createElement("div");
             desafioInfo.className = "challenge-info";
@@ -29,12 +29,12 @@ export function LoadHomeModuloDesafios(desafios, pagesControl) {
 
             const status = document.createElement("div");
             status.className = "challenge-status";
-            status.textContent = 'Concluído';
+            status.textContent = `${statusDesafio.text}`;
             desafioCard.appendChild(status);
 
             desafioCard.dataset.challenge = index;
             desafioCard.dataset.module = moduloIndex;
-            if (statusDesafio !== "locked") {
+            if (statusDesafio.style !== "locked") {
                 desafioCard.addEventListener("click", () => { desafios.setDesafioAtual(desafioCard.dataset.module, desafioCard.dataset.challenge); LoadEditorPageDesafio(); });
             }
             desafiosContainer.appendChild(desafioCard);
@@ -55,8 +55,7 @@ export function LoadHomeModuloDesafios(desafios, pagesControl) {
     function LoadEditorPageDesafio() {
         const dados = desafios.getDesafio();
 
-        // document.getElementById("desafio-number").textContent =
-        //     `Desafio ${ -1 + 1}`;
+        document.getElementById("desafio-number").textContent = `Desafio ${desafios.getIndexDesafio() + 1}`;
 
         document.getElementById("titulo").textContent = dados.titulo;
         document.getElementById("instrucoes").textContent = dados.instrucoes;
@@ -65,6 +64,7 @@ export function LoadHomeModuloDesafios(desafios, pagesControl) {
     }
 
     renderModulos();
+    renderDesafios(0); // Renderiza os desafios do primeiro módulo por padrão
 
     return {
         LoadEditorPageDesafio

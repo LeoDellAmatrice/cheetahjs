@@ -1,4 +1,4 @@
-import { Modulos, validator_base } from "../desafios.js";
+import { Modulos, validator_base, validator_erro_esperado } from "../desafios.js";
 
 export function DesafioFactory(storage) {
   let moduloAtual = 0;
@@ -26,13 +26,13 @@ export function DesafioFactory(storage) {
 
   function getDesafioStatus(indexModulo = moduloAtual, indexDesafio = desafioAtual) {
     const progresso = storage.get(getModulo(indexModulo).id);
-    console.log("progresso", progresso)
+
     if (indexDesafio < progresso.desafios) {
-      return "done";
+      return {style: "done", text: "Concluído"};
     } else if (indexDesafio === progresso.desafios) {
-      return "current";
+      return {style: "current", text: "Desbloqueado"};
     } else {
-      return "locked";
+      return {style: "locked", text: "Bloqueado"};
     }
   }
 
@@ -66,7 +66,7 @@ export function DesafioFactory(storage) {
     return desafioAtual < storage.get(getModulo().id).desafios;
   }
 
-  function DesbloquarProximo() {
+  function DesbloquearProximo() {
     if (desafioAtual < getDesafios().length) {
       storage.set(getModulo().id, desafioAtual + 1, desafioAtual + 1 >= getDesafios().length);
     }
@@ -83,6 +83,9 @@ export function DesafioFactory(storage) {
   }
 
   function validar(codigo) {
+    if (isTypeError()) {
+      return validator_erro_esperado(codigo, getDesafio().validar);
+    }
     return validator_base(codigo, getDesafio().validar);
   }
 
@@ -107,7 +110,7 @@ export function DesafioFactory(storage) {
     getAllUnlock,
     getDadosUnlock,
     proximoDesafioLivre,
-    DesbloquarProximo,
+    DesbloquearProximo,
     proximoDesafio,
     anteriorDesafio,
     isTypeError,

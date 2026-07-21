@@ -81,9 +81,9 @@ export function AppController(editor, desafios, HomeModuloDesafios, feedback, ou
         // 2️⃣ Validar SEPARADAMENTE
         try {
             const valido = desafios.validar(code);
-
+            
             if (valido.ok) {
-                desafios.DesbloquarProximo();
+                desafios.DesbloquearProximo();
                 editor.addToAutoComplete(desafios.getDadosUnlock());
                 feedback.show("Parabéns! Você completou o desafio.", "success");
 
@@ -101,11 +101,17 @@ export function AppController(editor, desafios, HomeModuloDesafios, feedback, ou
     }
 
     function proximoDesafio() {
+
         if (!desafios.proximoDesafioLivre()) {
             feedback.show(
                 `Complete o desafio ${desafios.getIndexDesafio() + 1} antes de continuar`,
                 "error"
             );
+            return;
+        }
+
+        if (desafios.isUltimo()) {
+            feedback.show("Você completou todos os desafios deste módulo!", "success");
             return;
         }
 
