@@ -1,35 +1,60 @@
-import { Desafios } from "../desafios.js";
+import { Modulos, validator_base, validator_erro_esperado } from "../desafios.js";
 
 export function DesafioFactory(storage) {
-  let atual = storage.get();
+  let moduloAtual = 0;
+  let desafioAtual = 0;
 
-  function getAtual() {
-    return atual;
+  function getDesafio(indexModulo = moduloAtual, indexDesafio = desafioAtual) {
+    return Modulos[indexModulo].Desafios[indexDesafio];
+  }
+
+  function getDesafios(indexModulo = moduloAtual) {
+    return Modulos[indexModulo].Desafios;
+  }
+
+  function getModulo(indexModulo = moduloAtual) {
+    return Modulos[indexModulo];
+  }
+
+  function getModulos() {
+    return Modulos;
+  }
+
+  function getIndexDesafio() {
+    return desafioAtual;
+  }
+
+  function getDesafioStatus(indexModulo = moduloAtual, indexDesafio = desafioAtual) {
+    const progresso = storage.get(getModulo(indexModulo).id);
+
+    if (indexDesafio < progresso.desafios) {
+      return {style: "done", text: "Concluído"};
+    } else if (indexDesafio === progresso.desafios) {
+      return {style: "current", text: "Desbloqueado"};
+    } else {
+      return {style: "locked", text: "Bloqueado"};
+    }
+  }
+
+  function setDesafioAtual(indexModulo, indexDesafio) {
+    moduloAtual = Number(indexModulo);
+    desafioAtual = Number(indexDesafio);
   }
 
   function isTypeError(){
-    
-    if (Desafios[atual].tipo === "erro-didatico"){
-      return true
-    }
-
-    return false 
-  }
-
-  function getDados() {
-    return Desafios[atual];
+    return getDesafio().tipo === "erro-didatico"
   }
 
   function getDadosUnlock(){
-    return Desafios[atual].unlockComplete || []
+    return getDesafio().unlockComplete || []
   }
 
   function getAllUnlock(){
 
     let listAllUnlock = []
 
-    for (let i = 0; i<=Number(atual)-1;i++){
-      Desafios[i].unlockComplete?.forEach(word => {
+    for (let i = 0; i<=Number(desafioAtual)-1;i++){
+      getDesafios().unlockComplete?.forEach(word => {
         listAllUnlock.push(word)
       });
     }
@@ -37,49 +62,57 @@ export function DesafioFactory(storage) {
     return listAllUnlock
   }
 
-  function podeAvancar() {
-    return atual < storage.get();
+  function proximoDesafioLivre() {
+    return desafioAtual < storage.get(getModulo().id).desafios;
   }
 
-  function avancar() {
-    if (atual < Desafios.length - 1) {
-      storage.set(atual+1);
+  function DesbloquearProximo() {
+    if (desafioAtual < getDesafios().length) {
+      storage.set(getModulo().id, desafioAtual + 1, desafioAtual + 1 >= getDesafios().length);
     }
   }
 
-  function proximo() {
-    if (atual < Desafios.length - 1) {
-      atual++;
+  function proximoDesafio() {
+    if (desafioAtual < getDesafios().length - 1) {
+      desafioAtual++;
     }
   }
 
-  function anterior() {
-    if (atual > 0) atual--;
+  function anteriorDesafio() {
+    if (desafioAtual > 0) desafioAtual--;
   }
 
   function validar(codigo) {
-    return Desafios[atual].validar(codigo);
+    if (isTypeError()) {
+      return validator_erro_esperado(codigo, getDesafio().validar);
+    }
+    return validator_base(codigo, getDesafio().validar);
   }
 
   function isUltimo() {
-    return atual >= Desafios.length - 1;
+    return desafioAtual >= getDesafios().length - 1;
   }
 
   function resetAll(){
     storage.set(0);
-    atual = 0;
+    desafioAtual = 0;
     window.location.reload()
   }
 
   return {
-    getAtual,
-    getDados,
+    getDesafio,
+    getDesafios,
+    getModulo,
+    getModulos,
+    getIndexDesafio,
+    getDesafioStatus,
+    setDesafioAtual,
     getAllUnlock,
     getDadosUnlock,
-    podeAvancar,
-    avancar,
-    proximo,
-    anterior,
+    proximoDesafioLivre,
+    DesbloquearProximo,
+    proximoDesafio,
+    anteriorDesafio,
     isTypeError,
     validar,
     isUltimo,

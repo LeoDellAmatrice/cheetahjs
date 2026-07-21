@@ -1,18 +1,11 @@
 import { ErrorTranslator } from "../core/ErrorTranslator.js";
 
-export function AppController(editor, desafios, feedback, output) {
+export function AppController(editor, desafios, HomeModuloDesafios, feedback, output) {
 
     const errorTranslator = ErrorTranslator();
 
     function carregarDesafio() {
-        const dados = desafios.getDados();
-
-        document.getElementById("desafio-number").textContent =
-            `Desafio ${desafios.getAtual() + 1}`;
-
-        document.getElementById("titulo").textContent = dados.titulo;
-        document.getElementById("instrucoes").textContent = dados.instrucoes;
-
+        HomeModuloDesafios.LoadEditorPageDesafio();
         output.clear();
     }
 
@@ -88,9 +81,9 @@ export function AppController(editor, desafios, feedback, output) {
         // 2️⃣ Validar SEPARADAMENTE
         try {
             const valido = desafios.validar(code);
-
+            
             if (valido.ok) {
-                desafios.avancar();
+                desafios.DesbloquearProximo();
                 editor.addToAutoComplete(desafios.getDadosUnlock());
                 feedback.show("Parabéns! Você completou o desafio.", "success");
 
@@ -108,21 +101,27 @@ export function AppController(editor, desafios, feedback, output) {
     }
 
     function proximoDesafio() {
-        if (!desafios.podeAvancar()) {
+
+        if (!desafios.proximoDesafioLivre()) {
             feedback.show(
-                `Complete o desafio ${desafios.getAtual() + 1} antes de continuar`,
+                `Complete o desafio ${desafios.getIndexDesafio() + 1} antes de continuar`,
                 "error"
             );
             return;
         }
 
-        desafios.proximo();
+        if (desafios.isUltimo()) {
+            feedback.show("Você completou todos os desafios deste módulo!", "success");
+            return;
+        }
+
+        desafios.proximoDesafio();
         editor.clearEditor();
         carregarDesafio();
     }
 
     function desafioAnterior() {
-        desafios.anterior();
+        desafios.anteriorDesafio();
         carregarDesafio();
     }
 

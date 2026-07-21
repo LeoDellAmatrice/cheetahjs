@@ -1,6 +1,7 @@
 import { settingsStore } from '../core/SettingsStore.js';
 
 export function SettingsFactory(editor, desafios, feedback, pagesControl) {
+  
   function applyAll() {
     const settings = settingsStore.getAll();
 
@@ -23,6 +24,8 @@ export function SettingsFactory(editor, desafios, feedback, pagesControl) {
     settingsStore.set(key, value);
     this.applyAll();
   }
+
+  applyAll();
 
   return {
     applyAll,
