@@ -52,7 +52,7 @@ export function LoadHomeModuloDesafios(desafios, pagesControl) {
         });
     }
 
-    function LoadEditorPageDesafio() {
+    function LoadEditorPageDesafio(navigate = true) {
         const dados = desafios.getDesafio();
 
         document.getElementById("desafio-number").textContent = `Desafio ${desafios.getIndexDesafio() + 1}`;
@@ -60,7 +60,9 @@ export function LoadHomeModuloDesafios(desafios, pagesControl) {
         document.getElementById("titulo").textContent = dados.titulo;
         document.getElementById("instrucoes").textContent = dados.instrucoes;
 
-        pagesControl.navigateTo("editor");
+        if (navigate) {
+            pagesControl.navigateTo("editor");
+        }
     }
 
     renderModulos();

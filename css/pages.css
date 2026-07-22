@@ -170,17 +170,13 @@
 
 .home-left {
     display: grid;
-    grid-template-columns: 3fr 2fr;
-    grid-template-rows: auto 1fr 1fr auto;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
     gap: 10px;
 }
 
 .home-intro, .home-modules {
     grid-column: span 2
-}
-
-.home-continue {
-    grid-row: span 2;
 }
 
 /* ===== HOME INTRO ===== */
@@ -246,16 +242,6 @@
 .user-level, .progress-number {
     text-align: center;
     text-wrap: nowrap;
-}
-
-/* ====== CARD CONTINUE ======== */
-
-.home-continue {
-    display: flex;
-    justify-content: space-between;
-}
-.continue-body {
-    text-align: center;
 }
 
 /* ===== CARD MODULO ATUAL ===== */
@@ -409,8 +395,7 @@ kbd {
     border-right: 1px solid #2c2c2c;
     display: flex;
     flex-direction: column;
-    height: clamp(200px, 320px, 400px);
-    overflow-y: auto;
+    overflow-y: scroll;
 }
 
 .module-item {
@@ -433,8 +418,7 @@ kbd {
 /* DIREITA */
 .module-content-area {
     padding-left: 16px;
-    height: clamp(250px, 350px, 450px);
-    overflow-y: auto;
+    overflow-y: scroll;
 }
 
 .module-header-right{

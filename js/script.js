@@ -32,7 +32,8 @@ window.onload = () => {
   const storage = StorageFactory();
   const desafios = DesafioFactory(storage);
   const HomeModuloDesafios = LoadHomeModuloDesafios(desafios, pagesControl);
-
+  HomeModuloDesafios.LoadEditorPageDesafio(false); // Carrega o desafio atual sem navegar para a página do editor
+  
   const feedbackToast = Feedback();
   const feedbackHeader = HeaderUI();
 
@@ -47,8 +48,6 @@ window.onload = () => {
   editor.addToAutoComplete(desafios.getAllUnlock())
 
   const app = AppController(editor, desafios, HomeModuloDesafios, feedback, output);
-
-  app.carregarDesafio();
 
   document.getElementById("icon-setting").onclick = SettingsModal.show;
 
