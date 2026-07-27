@@ -381,7 +381,6 @@ kbd {
 /* DIREITA */
 .module-content-area {
     padding-left: 16px;
-    overflow-y: scroll;
 }
 
 .module-header-right {
@@ -391,11 +390,7 @@ kbd {
 }
 
 .module-content {
-    display: none;
-}
-
-.module-content.active {
-    display: block;
+    overflow-y: scroll;
 }
 
 /* ===== CHALLENGE CARD ===== */
