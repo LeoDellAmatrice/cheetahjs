@@ -99,37 +99,44 @@ export function EditorFactory() {
         editor.scrollIntoView({ line: linha - 1, ch: 0 }, 100);
     }
 
+    let animacao = null; // timer da animação em andamento
+
+    function limparAnimacao() {
+        clearTimeout(animacao);
+        animacao = null;
+        editor.eachLine((linha) => editor.removeLineClass(linha, "background", "executing-line"));
+    }
+
     function animarExecucaoCodeMirror(velocidade = 40) {
+        limparAnimacao(); // cancela uma animação anterior
+
+        const conteudo = editor.getValue();
         const totalLinhas = editor.lineCount();
         let linhaAtual = 0;
 
-        // Remove Cursor
+        // Esconde o destaque da linha atual durante a animação
         const estadoOriginal = editor.getOption("styleActiveLine");
         editor.setOption("styleActiveLine", false);
-        setTimeout(() => {
-            editor.setOption("styleActiveLine", estadoOriginal);
-        }, totalLinhas * velocidade);
-        
 
-        // limpa qualquer execução anterior
-        for (let i = 0; i < totalLinhas; i++) {
-            const handle = editor.getLineHandle(i);
-            editor.removeLineClass(handle, "background", "executing-line");
+        function terminar() {
+            limparAnimacao();
+            editor.setOption("styleActiveLine", estadoOriginal);
         }
 
         function executarLinha() {
+            // Se o código mudou no meio (ex.: troca de desafio), para a animação
+            if (editor.getValue() !== conteudo || linhaAtual >= totalLinhas) {
+                terminar();
+                return;
+            }
+
             if (linhaAtual > 0) {
-                const linhaAnterior = editor.getLineHandle(linhaAtual - 1);
-                editor.removeLineClass(linhaAnterior, "background", "executing-line");
+                editor.removeLineClass(linhaAtual - 1, "background", "executing-line");
             }
+            editor.addLineClass(linhaAtual, "background", "executing-line");
 
-            if (linhaAtual < totalLinhas) {
-                const linha = editor.getLineHandle(linhaAtual);
-                editor.addLineClass(linha, "background", "executing-line");
-
-                linhaAtual++;
-                setTimeout(executarLinha, velocidade);
-            }
+            linhaAtual++;
+            animacao = setTimeout(executarLinha, velocidade);
         }
 
         executarLinha();

@@ -119,8 +119,7 @@ export function AppController(editor, desafios, HomeModuloDesafios, feedback, ou
         }
 
         desafios.proximoDesafio();
-        editor.clearEditor();
-        carregarDesafio();
+        carregarDesafio(); // o código do editor é trocado em LoadEditorPageDesafio
     }
 
     function desafioAnterior() {

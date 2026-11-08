@@ -25,7 +25,7 @@ function el(tag, className, text) {
     return elemento;
 }
 
-export function LoadHomeModuloDesafios(desafios, pagesControl) {
+export function LoadHomeModuloDesafios(desafios, pagesControl, editor) {
 
     const $ = (id) => document.getElementById(id);
 
@@ -180,6 +180,53 @@ export function LoadHomeModuloDesafios(desafios, pagesControl) {
     // -----------------------------------------------------------------
     // EDITOR: painel do desafio
     // -----------------------------------------------------------------
+    // Converte `código` e **negrito** em elementos, sem usar innerHTML
+    function textoRico(container, texto) {
+        container.replaceChildren();
+        texto.split("\n\n").forEach((paragrafo) => {
+            const p = el("p");
+            paragrafo.split("\n").forEach((linha, i) => {
+                if (i > 0) p.append(el("br"));
+                linha.split(/(`[^`]+`|\*\*[^*]+\*\*)/).forEach((parte) => {
+                    if (/^`[^`]+`$/.test(parte)) p.append(el("code", null, parte.slice(1, -1)));
+                    else if (/^\*\*[^*]+\*\*$/.test(parte)) p.append(el("strong", null, parte.slice(2, -2)));
+                    else if (parte) p.append(parte);
+                });
+            });
+            container.append(p);
+        });
+    }
+
+    function renderConceito(conceito) {
+        const bloco = $("conceito");
+        bloco.hidden = !conceito;
+        if (!conceito) return;
+        textoRico($("conceito-texto"), conceito.texto ?? "");
+        $("conceito-exemplo").textContent = conceito.exemplo ?? "";
+    }
+
+    // Código de cada desafio, guardado enquanto o site está aberto.
+    // Assim, ir e voltar entre desafios não apaga o que o aluno escreveu.
+    const rascunhos = new Map();
+    let chaveAtual = null;
+
+    function trocarCodigoDoEditor(dados) {
+        if (!editor) return;
+        const chave = `${desafios.getIndexModulo()}:${desafios.getIndexDesafio()}`;
+        if (chave === chaveAtual) return;
+
+        if (chaveAtual !== null) rascunhos.set(chaveAtual, editor.getValue());
+        chaveAtual = chave;
+
+        if (rascunhos.has(chave)) {
+            editor.setValue(rascunhos.get(chave));
+        } else if (dados.codigoInicial) {
+            editor.setValue(dados.codigoInicial);
+        } else {
+            editor.clearEditor(); // só limpa se a configuração estiver ligada
+        }
+    }
+
     const btnDica = $("btn-dica");
     const textoDica = $("dica");
 
@@ -205,7 +252,10 @@ export function LoadHomeModuloDesafios(desafios, pagesControl) {
         $("desafio-modulo").textContent = modulo.titulo;
         $("desafio-number").textContent = `Desafio ${indice + 1} de ${desafios.getDesafios().length}`;
         $("titulo").textContent = dados.titulo;
-        $("instrucoes").textContent = dados.instrucoes;
+        textoRico($("instrucoes"), dados.instrucoes);
+        renderConceito(dados.conceito);
+        trocarCodigoDoEditor(dados);
+        document.querySelector(".desafio-scroll")?.scrollTo(0, 0);
 
         // Dica: sempre começa escondida
         const semPrefixo = (dados.tip ?? "").replace(/^💡\s*Dica:\s*/u, "");
