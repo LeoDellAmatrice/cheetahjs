@@ -32,7 +32,7 @@ window.onload = () => {
 
   const storage = StorageFactory();
   const desafios = DesafioFactory(storage);
-  const HomeModuloDesafios = LoadHomeModuloDesafios(desafios, pagesControl);
+  const HomeModuloDesafios = LoadHomeModuloDesafios(desafios, pagesControl, editor);
   HomeModuloDesafios.LoadEditorPageDesafio(false); // Carrega o desafio atual sem navegar para a página do editor
 
   const feedbackToast = Feedback();

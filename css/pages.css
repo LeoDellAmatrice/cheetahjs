@@ -451,7 +451,9 @@
 }
 
 .instrucoes {
-    white-space: pre-wrap;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     font-size: 1rem;
     line-height: 1.65;
 }
@@ -477,6 +479,54 @@
     border-color: var(--accent);
     color: var(--text);
 }
+
+/* ---------- Conceito ---------- */
+.conceito {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    border-radius: var(--radius-sm);
+    background: var(--info-soft);
+    border-left: 3px solid var(--info);
+}
+
+.conceito[hidden] { display: none; }
+
+.conceito-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+}
+
+.conceito-texto code,
+.instrucoes code {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+}
+
+.conceito-exemplo {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--console-bg);
+    color: var(--console-text);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    overflow-x: auto;
+    white-space: pre;
+}
+
+.conceito-exemplo:empty,
+.conceito-exemplo:has(code:empty) { display: none; }
 
 .dica {
     margin-top: 8px;

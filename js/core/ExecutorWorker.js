@@ -36,11 +36,28 @@ const IGNORAR = new Set([
 // ---------------------------------------------------------------------
 // Console falso: guarda tudo que o aluno imprimir
 // ---------------------------------------------------------------------
+// Mostra valores como o console de verdade:
+// textos soltos aparecem sem aspas, mas dentro de listas/objetos aparecem com aspas.
+function formatar(valor, dentro = false, profundidade = 0) {
+  if (typeof valor === "string") return dentro ? `'${valor}'` : valor;
+  if (typeof valor === "function") return `[Function: ${valor.name || "anônima"}]`;
+  if (valor === null || typeof valor !== "object") return String(valor);
+  if (profundidade > 2) return Array.isArray(valor) ? "[Array]" : "[Object]";
+
+  if (Array.isArray(valor)) {
+    const itens = valor.map((v) => formatar(v, true, profundidade + 1));
+    return itens.length ? `[ ${itens.join(", ")} ]` : "[]";
+  }
+
+  const pares = Object.entries(valor).map(([k, v]) => `${k}: ${formatar(v, true, profundidade + 1)}`);
+  return pares.length ? `{ ${pares.join(", ")} }` : "{}";
+}
+
 function criarConsole() {
   const fakeConsole = {
     output: "",
     log(...args) {
-      fakeConsole.output += args.join(" ") + "\n";
+      fakeConsole.output += args.map((a) => formatar(a)).join(" ") + "\n";
     }
   };
   // Evita o TypeError confuso "console.error is not a function"
@@ -98,6 +115,7 @@ function executar(code) {
     return {
       ok: false,
       error,
+      code,
       context: { console: fakeConsole },
       consoleOutput: fakeConsole.output.trim()
     };
@@ -109,6 +127,7 @@ function executar(code) {
 
   return {
     ok: true,
+    code,
     context: { ...capturado, console: fakeConsole },
     consoleOutput: fakeConsole.output.trim()
   };
