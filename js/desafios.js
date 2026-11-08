@@ -1,75 +1,7 @@
-function capturarFuncoesParaContext(code) {
-  return code.replace(
-    /function\s+([a-zA-Z_$][\w$]*)\s*\(/g,
-    "sandbox.$1 = function $1("
-  ).replace(
-    /let\s+([a-zA-Z_$][\w$]*)\s*\=/g,
-    "sandbox.$1 = "
-  ).replace(
-    /const\s+([a-zA-Z_$][\w$]*)\s*=\s*([^\n;]+)/g,
-    `Object.defineProperty(sandbox, "$1", {
-      value: $2,
-      writable: false,
-      configurable: false
-    })`
-  );
-}
-
-function executeUserCode(code) {
-  try {
-    const fakeConsole = {
-      output: "",
-      log(...args) {
-        this.output += args.join(" ") + "\n";
-      }
-    };
-
-    const context = {
-      console: fakeConsole
-    };
-
-    const sandbox = new Proxy(context, {
-      has(target, prop) {
-        return prop in target;
-      },
-
-      get(target, prop) {
-        return target[prop];
-      },
-
-      set(target, prop, value) {
-        target[prop] = value;
-        return true;
-      }
-    });
-
-    const codigoTransformado = capturarFuncoesParaContext(code);
-
-    const fn = new Function(
-      "sandbox",
-      `
-      with (sandbox) {
-        ${codigoTransformado}
-      }
-      `
-    );
-
-    fn(sandbox);
-
-    return {
-      ok: true,
-      context,
-      consoleOutput: fakeConsole.output.trim()
-    };
-
-  } catch (e) {
-    return {
-      ok: false,
-      error: e
-    };
-  }
-}
-
+// A execução do código do aluno acontece em js/core/ExecutorWorker.js.
+// Aqui ficam só as regras de validação e os desafios.
+// Os validadores recebem o resultado da execução ("exec"), que tem o formato:
+//   { ok, error, context: { ...variaveisDoAluno, console }, consoleOutput }
 
 function validarErroEsperado(exec, erroEsperado, message) {
 
@@ -160,13 +92,11 @@ const rules = {
   }
 };
 
-export function validator_base(code, rules) {
-  const exec = executeUserCode(code);
+export function validator_base(exec, rules) {
   return runRules(exec, rules);
 }
 
-export function validator_erro_esperado(code, rules) {
-  const exec = executeUserCode(code);
+export function validator_erro_esperado(exec, rules) {
   return runRulesErroEsperado(exec, rules);
 }
 

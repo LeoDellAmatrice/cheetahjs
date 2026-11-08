@@ -362,22 +362,7 @@
     gap: 10px;
 }
 
-.btn-secundario {
-    /* todo */
-
-    color: white;
-}
-
-.btn-primario {
-    /* todo */
-    color: white;
-}
-
-.btn-sucesso {
-    /* todo */
-
-    color: white;
-}
+/* Cores dos botões .btn-primario/.btn-secundario/.btn-sucesso ficam em style.css */
 
 /* ===============================
    RESPONSIVO
@@ -397,7 +382,7 @@
         flex-direction: column;
     }
 
-    .btn {
+    .modal .btn {
         width: 100%;
     }
 }

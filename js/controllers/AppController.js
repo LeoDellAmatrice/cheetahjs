@@ -1,102 +1,105 @@
 import { ErrorTranslator } from "../core/ErrorTranslator.js";
 
-export function AppController(editor, desafios, HomeModuloDesafios, feedback, output) {
+export function AppController(editor, desafios, HomeModuloDesafios, feedback, output, codeRunner) {
 
     const errorTranslator = ErrorTranslator();
+    const btnExecutar = document.getElementById("btn-executar");
+    let executando = false;
 
     function carregarDesafio() {
         HomeModuloDesafios.LoadEditorPageDesafio();
         output.clear();
     }
 
-    function extrairLinhaColuna(erro) {
-        const stack = erro.stack ?? "";
-
-        const patterns = [
-            /Function:(\d+)/,                  // Firefox
-            /<anonymous>:(\d+):(\d+)/          // Chrome/Edge
-        ];
-
-        for (const pattern of patterns) {
-            const match = stack.match(pattern);
-            if (match) {
-                return {
-                    linha: Number(match[1]) - 2,
-                    coluna: match[2] ? Number(match[2]) : null
-                };
-            }
-        }
-
-        return null;
+    function setExecutando(valor) {
+        executando = valor;
+        btnExecutar.disabled = valor;
+        btnExecutar.textContent = valor ? "⏳ Executando..." : "▶ Executar";
     }
 
-    function executar() {
+    async function executar() {
+        // Evita várias execuções ao mesmo tempo (ex.: Ctrl+Enter repetido)
+        if (executando) return;
+        setExecutando(true);
+
         const code = editor.getValue();
         editor.limparDestaques();
-        editor.animarExecucaoCodeMirror()
-
+        editor.animarExecucaoCodeMirror();
         output.clear();
 
-        // 1️⃣ Executar o código SEMPRE
         try {
-            const fakeConsole = {
-                _output: "",
-                log: (...args) => {
-                    fakeConsole._output += args.join(" ") + "\n";
-                }
-            };
-
-            new Function("console", code)(fakeConsole);
-
-            output.set(fakeConsole._output || "Código sem erros. Console sem mensagens.\nuse console.log() para exibir mensagens aqui :)");
-        } catch (e) {
-
-            const info = extrairLinhaColuna(e);
-            const mensagemAmigavel = errorTranslator.traduzir(e);
-
-            if (info) {
-                editor.destacarLinha(info.linha);
-                output.set(
-                    `Erro na linha: ${info.linha}\n` +
-                    `${mensagemAmigavel.text}\n\n` +
-                    `Detalhe técnico:\n${e.name}: ${e.message}`
-                );
-            } else {
-                output.set(
-                    `Sem Informação de linha.\n` +
-                    `${mensagemAmigavel.text}\n\n` +
-                    `Detalhe técnico:\n${e.name}: ${e.message}`
-                );
-            }
-
-            output.set(
-                `❌ Erro na linha ${info?.linha ?? "desconhecida"}\n${mensagemAmigavel.text}\n\nDetalhe técnico:\n${e.name}: ${e.message}`
+            // Executa e valida numa única passada, fora da página
+            const resultado = await codeRunner.executar(
+                code,
+                desafios.getIndexModulo(),
+                desafios.getIndexDesafio()
             );
 
-            if (!desafios.isTypeError() && mensagemAmigavel.hint) {
-                output.append(`\n💡 Dica:${mensagemAmigavel.hint}`);
+            if (resultado.timeout) {
+                mostrarTimeout();
+                return;
             }
+
+            if (resultado.falhaInterna) {
+                output.set(`⚠️ Não foi possível executar o código.\n${resultado.falhaInterna}`);
+                feedback.show("Erro interno ao executar o código.", "error");
+                return;
+            }
+
+            mostrarSaida(resultado);
+            mostrarValidacao(resultado.validacao);
+        } finally {
+            setExecutando(false);
+        }
+    }
+
+    function mostrarTimeout() {
+        const segundos = codeRunner.tempoLimite / 1000;
+        output.set(
+            `⏱️ Seu código passou de ${segundos} segundos e foi interrompido.\n\n` +
+            `💡 Dica: isso normalmente é um loop infinito.\n` +
+            `Confira se a condição do while/for fica falsa em algum momento\n` +
+            `e se a variável de controle está sendo alterada (ex.: i++).`
+        );
+        feedback.show("Código interrompido: possível loop infinito.", "error");
+    }
+
+    function mostrarSaida({ consoleOutput, erro }) {
+        if (!erro) {
+            output.set(consoleOutput || "Código sem erros. Console sem mensagens.\nuse console.log() para exibir mensagens aqui :)");
+            return;
         }
 
-        // 2️⃣ Validar SEPARADAMENTE
-        try {
-            const valido = desafios.validar(code);
-            
-            if (valido.ok) {
-                desafios.DesbloquearProximo();
-                editor.addToAutoComplete(desafios.getDadosUnlock());
-                feedback.show("Parabéns! Você completou o desafio.", "success");
+        const mensagemAmigavel = errorTranslator.traduzir(erro);
+        if (erro.linha) editor.destacarLinha(erro.linha);
 
-                if (desafios.isTypeError()){
-                    output.append(`\nDesafio concluido: ${valido.message}`)
-                }
-            } else {
-                feedback.show("Desafio não foi completo. Tente novamente.", "error");
-                output.append(`\nDesafio não concluído. ${valido.message || "Revise as instruções e tente novamente."}`);
+        // Mostra o que foi impresso ANTES do erro: ajuda a achar onde parou
+        const saidaAnterior = consoleOutput ? `${consoleOutput}\n\n` : "";
+
+        output.set(
+            `${saidaAnterior}` +
+            `❌ Erro na linha ${erro.linha ?? "desconhecida"}\n${mensagemAmigavel.text}\n\n` +
+            `Detalhe técnico:\n${erro.name}: ${erro.message}`
+        );
+
+        if (!desafios.isTypeError() && mensagemAmigavel.hint) {
+            output.append(`\n💡 Dica: ${mensagemAmigavel.hint}`);
+        }
+    }
+
+    function mostrarValidacao(valido) {
+        if (valido.ok) {
+            desafios.DesbloquearProximo();
+            editor.addToAutoComplete(desafios.getDadosUnlock());
+            HomeModuloDesafios.atualizar(); // progresso da Home e selo "Concluído"
+            feedback.show("Parabéns! Você completou o desafio.", "success");
+
+            if (desafios.isTypeError()) {
+                output.append(`\nDesafio concluido: ${valido.message ?? ""}`);
             }
-
-        } catch (e) {
-            feedback.show("Erro na validação: " + e.message, "error");
+        } else {
+            feedback.show("Desafio não foi completo. Tente novamente.", "error");
+            output.append(`\nDesafio não concluído. ${valido.message || "Revise as instruções e tente novamente."}`);
         }
     }
 

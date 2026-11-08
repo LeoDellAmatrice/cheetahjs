@@ -1,41 +1,40 @@
-/* A instância do CodeMirror se adapta ao container */
+/* A instância do CodeMirror ocupa todo o card do editor */
 .CodeMirror {
-  font-family: monospace, !important;
+  font-family: var(--font-mono);
   height: 100% !important;
-  min-height: 300px;
   font-size: 14px;
-  border-radius: 8px;
-  border: 1px solid #333;
+  line-height: 1.6;
   font-variant-ligatures: contextual;
 }
 
+.CodeMirror-gutters { border-right: 0; }
+
+.CodeMirror-lines { padding: 12px 0; }
+
+/* Linha com erro */
 .linha-erro {
-  background: rgba(255, 0, 0, 0.15);
+  background: rgba(239, 68, 68, 0.22);
 }
 
-.CodeMirror-selected {
-  background: rgb(255, 0, 0);
+/* Animação "executando" (EditorFactory.animarExecucaoCodeMirror) */
+.executing-line {
+  background: rgba(247, 223, 30, 0.16);
 }
 
+/* ---------- Autocomplete ---------- */
 .CodeMirror-hints {
   position: absolute;
   z-index: 10;
   overflow: hidden;
   list-style: none;
-
   margin: 0;
-  padding: 2px;
-
-  -webkit-box-shadow: 2px 3px 5px rgba(0,0,0,.2);
-  -moz-box-shadow: 2px 3px 5px rgba(0,0,0,.2);
-  box-shadow: 2px 3px 5px rgba(0,0,0,.2);
-  border-radius: 3px;
-  border: 1px solid rgb(58, 58, 58);
-
-  background: rgb(37, 37, 37);
+  padding: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
   font-size: 90%;
-  font-family: monospace;
-
+  font-family: var(--font-mono);
   max-height: 20em;
   overflow-y: auto;
   box-sizing: border-box;
@@ -43,14 +42,14 @@
 
 .CodeMirror-hint {
   margin: 0;
-  padding: 0 4px;
-  border-radius: 2px;
+  padding: 2px 8px;
+  border-radius: 4px;
   white-space: pre;
-  color: rgb(255, 255, 255);
+  color: var(--text);
   cursor: pointer;
 }
 
 li.CodeMirror-hint-active {
-  background: rgb(0, 107, 201);
-  color: white;
+  background: var(--accent);
+  color: var(--accent-ink);
 }
