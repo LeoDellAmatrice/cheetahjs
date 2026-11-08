@@ -7,10 +7,10 @@
     <title>CheetahJS · Aprenda Lógica com JavaScript</title>
     <meta name="description" content="Aprenda lógica de programação com JavaScript resolvendo desafios progressivos direto no navegador.">
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/pages.css">
-    <link rel="stylesheet" href="css/modal.css">
-    <link rel="stylesheet" href="css/codeMirorCss.css">
+    <link rel="stylesheet" href="css/style.css?v=0.4.0">
+    <link rel="stylesheet" href="css/pages.css?v=0.4.0">
+    <link rel="stylesheet" href="css/modal.css?v=0.4.0">
+    <link rel="stylesheet" href="css/codeMirorCss.css?v=0.4.0">
 
     <link rel="shortcut icon" href="assets/img/logo_01js.png" type="image/x-icon">
 
@@ -242,7 +242,38 @@
         (MIT)
     </footer>
 
-    <script type="module" src="js/script.js"></script>
+    <!--
+        VERSÃO DOS ARQUIVOS (cache busting)
+        O CDN do Render guarda cópias dos arquivos por alguns minutos. Sem versão na URL,
+        logo após um deploy o aluno pode receber uma mistura de arquivos novos e antigos.
+        A cada deploy: troque "v=0.4.0" pela nova versão em TODO este arquivo (Ctrl+H).
+        Criou um módulo JS novo? Adicione uma linha para ele no importmap abaixo.
+    -->
+    <script type="importmap">
+    {
+        "imports": {
+            "./js/script.js": "./js/script.js?v=0.4.0",
+            "./js/desafios.js": "./js/desafios.js?v=0.4.0",
+            "./js/controllers/AppController.js": "./js/controllers/AppController.js?v=0.4.0",
+            "./js/core/CodeRunner.js": "./js/core/CodeRunner.js?v=0.4.0",
+            "./js/core/DesafioFactory.js": "./js/core/DesafioFactory.js?v=0.4.0",
+            "./js/core/EditorFactory.js": "./js/core/EditorFactory.js?v=0.4.0",
+            "./js/core/ErrorTranslator.js": "./js/core/ErrorTranslator.js?v=0.4.0",
+            "./js/core/SettingsFactory.js": "./js/core/SettingsFactory.js?v=0.4.0",
+            "./js/core/SettingsStore.js": "./js/core/SettingsStore.js?v=0.4.0",
+            "./js/core/StorageFactory.js": "./js/core/StorageFactory.js?v=0.4.0",
+            "./js/ui/FeedbackService.js": "./js/ui/FeedbackService.js?v=0.4.0",
+            "./js/ui/FeedbackToast.js": "./js/ui/FeedbackToast.js?v=0.4.0",
+            "./js/ui/Header.js": "./js/ui/Header.js?v=0.4.0",
+            "./js/ui/IntroModal.js": "./js/ui/IntroModal.js?v=0.4.0",
+            "./js/ui/ModulosDesafios.js": "./js/ui/ModulosDesafios.js?v=0.4.0",
+            "./js/ui/Output.js": "./js/ui/Output.js?v=0.4.0",
+            "./js/ui/PagesControl.js": "./js/ui/PagesControl.js?v=0.4.0",
+            "./js/ui/SettingsModal.js": "./js/ui/SettingsModal.js?v=0.4.0"
+        }
+    }
+    </script>
+    <script type="module" src="js/script.js?v=0.4.0"></script>
 </body>
 
 </html>

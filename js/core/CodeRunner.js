@@ -9,6 +9,10 @@
 // execução não "vazem" para a próxima.
 // =====================================================================
 
+// O import map do index.html não vale dentro de Web Workers.
+// Por isso repassamos a versão desta URL (ex.: "?v=0.4.0") para o worker.
+const VERSAO = new URL(import.meta.url).search;
+
 const TEMPO_LIMITE_MS = 2000;      // tempo máximo para o código do aluno
 const TEMPO_CARREGAMENTO_MS = 10000; // tempo máximo para o worker carregar
 
@@ -24,7 +28,7 @@ export function CodeRunner({ tempoLimite = TEMPO_LIMITE_MS } = {}) {
   function executar(code, moduloIndex, desafioIndex) {
     return new Promise((resolve) => {
       const worker = new Worker(
-        new URL("./ExecutorWorker.js", import.meta.url),
+        new URL(`./ExecutorWorker.js${VERSAO}`, import.meta.url),
         { type: "module" }
       );
 

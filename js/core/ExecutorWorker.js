@@ -12,7 +12,10 @@
 //   4. Devolve só dados simples (texto, números) para a página
 // =====================================================================
 
-import { Modulos, validator_base, validator_erro_esperado } from "../desafios.js";
+// Import dinâmico para levar junto a versão (?v=...) que veio na URL do worker.
+// Assim o worker usa sempre a mesma versão de desafios.js que a página.
+const VERSAO = new URL(import.meta.url).search;
+const carregarDesafios = import(`../desafios.js${VERSAO}`);
 
 // Nome do objeto onde guardamos as variáveis do aluno ao final da execução.
 // É um nome improvável para não colidir com variáveis do aluno.
@@ -114,7 +117,7 @@ function executar(code) {
 // ---------------------------------------------------------------------
 // Validação
 // ---------------------------------------------------------------------
-function validar(exec, desafio) {
+function validar(exec, desafio, { validator_base, validator_erro_esperado }) {
   try {
     const resultado = desafio.tipo === "erro-didatico"
       ? validator_erro_esperado(exec, desafio.validar)
@@ -155,8 +158,9 @@ function serializarErro(erro) {
 // ---------------------------------------------------------------------
 // Comunicação com a página
 // ---------------------------------------------------------------------
-self.onmessage = ({ data }) => {
+self.onmessage = async ({ data }) => {
   const { code, moduloIndex, desafioIndex } = data;
+  const { Modulos, validator_base, validator_erro_esperado } = await carregarDesafios;
 
   // Avisa a página que a execução começou (o cronômetro começa aqui,
   // assim o tempo de carregar o worker não conta como "código lento").
@@ -165,7 +169,7 @@ self.onmessage = ({ data }) => {
   const desafio = Modulos[moduloIndex]?.Desafios[desafioIndex];
   const exec = executar(code);
   const validacao = desafio
-    ? validar(exec, desafio)
+    ? validar(exec, desafio, { validator_base, validator_erro_esperado })
     : { ok: false, message: "Desafio não encontrado." };
 
   self.postMessage({
