@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aprenda Lógica com JS</title>
+    <title>CheetahJS · Aprenda Lógica com JavaScript</title>
+    <meta name="description" content="Aprenda lógica de programação com JavaScript resolvendo desafios progressivos direto no navegador.">
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/pages.css">
@@ -28,218 +29,205 @@
 
 <body>
     <header class="app-header">
-        <div class="header-left">
-            <img class="img-logo" src="assets/img/logo_01js.png" alt="Logo CheetahJS" width="42" height="42">
-            <div class="header-text">
-                <h1>CheetahJS</h1>
-                <span class="subtitle">Menos decorar. Mais entender.</span>
-            </div>
-        </div>
+        <a class="brand" href="#home" aria-label="CheetahJS - página inicial">
+            <img class="brand-logo" src="assets/img/logo_01js.png" alt="" width="36" height="36">
+            <span class="brand-text">
+                <span class="brand-name">Cheetah<span class="brand-js">JS</span></span>
+                <span class="brand-tagline">Menos decorar. Mais entender.</span>
+            </span>
+        </a>
 
         <div class="header-right">
-
-            <nav class="header-nav">
-                <a id="nav-home" href="/home" data-page="home">Home</a>
-                <a id="nav-editor" href="/editor" data-page="editor">Editor</a>
+            <nav class="header-nav" aria-label="Navegação principal">
+                <a id="nav-home" href="#home" data-page="home">Início</a>
+                <a id="nav-editor" href="#editor" data-page="editor">Editor</a>
             </nav>
 
-
-            <img id="icon-setting" src="assets/img/settings-gear.svg" alt="Abrir configurações" role="button"
-                tabindex="0" width="28" height="28">
+            <button id="icon-setting" class="icon-button" type="button" aria-label="Abrir configurações" title="Configurações">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                    <path fill="currentColor" d="M19.14 12.94a7.07 7.07 0 0 0 .06-.94 7.07 7.07 0 0 0-.06-.94l2.03-1.58a.49.49 0 0 0 .12-.62l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96a7.03 7.03 0 0 0-1.62-.94l-.36-2.54a.48.48 0 0 0-.48-.4h-3.84a.48.48 0 0 0-.48.4l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96a.49.49 0 0 0-.59.22L2.71 8.88a.48.48 0 0 0 .12.62l2.03 1.58a7.07 7.07 0 0 0 0 1.88l-2.03 1.58a.49.49 0 0 0-.12.62l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.25.4.48.4h3.84c.24 0 .44-.16.48-.4l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.49.49 0 0 0-.12-.62l-2.03-1.58zM12 15.6A3.6 3.6 0 1 1 12 8.4a3.6 3.6 0 0 1 0 7.2z"/>
+                </svg>
+            </button>
         </div>
     </header>
     <div class="header-status" id="header-status"></div>
 
-
-
-    <div id="toast-container"></div>
-
+    <div id="toast-container" aria-live="polite"></div>
 
     <main>
+        <!-- ============================ HOME ============================ -->
         <section id="pg-home" class="page pg-home">
-            <div class="home-grid">
-                <!-- ESQUERDA (60%) -->
-                <div class="home-left">
+            <div class="home-container">
 
-                    <div class="card home-intro">
-
-                        <div class="intro-header">
-                            <h1 class="intro-title">
-                                Cheetah
-                            </h1>
-                            <img height="50" src="assets/img/logo_01js.png" alt="Logo CheetahJS">
-                        </div>
-
-                        <h3 class="intro-title2">
-                            Domine a lógica com JavaScript.
-                        </h3>
-
-                        <p class="intro-subtitle">
-                            Resolva desafios progressivos, desenvolva seu raciocínio
-                            e evolua como programador.
+                <!-- Destaque: boas-vindas + continuar + progresso -->
+                <section class="hero card">
+                    <div class="hero-intro">
+                        <span class="eyebrow">Lógica de programação com JavaScript</span>
+                        <h1 class="hero-title">Domine a lógica, <span class="text-accent">um desafio por vez.</span></h1>
+                        <p class="hero-subtitle">
+                            Resolva desafios progressivos, veja o resultado na hora
+                            e evolua seu raciocínio como programador.
                         </p>
 
-
-                    </div>
-
-                    <div class="card home-progress">
-                        <div class="user-level">
-                            <h3>Mestre Cheetah</h3>
-                            <p>Nível atual</p>
-                        </div>
-
-                        <div class="modules-progress">
-                            <div class="progress-bar">
-                                <div class="progress-fill"></div>
-                            </div>
-    
-                            <small class="progress-number">
-                                1 de 6 Módulos concluídos
-                            </small>
-                        </div>
-
-                        <h4 class="focus-title">Laços de Repetição</h4>
-
-                        <div class="focus-progress">
-                            <div class="focus-bar">
-                                <div class="focus-fill" style="width: 50%;"></div>
-                            </div>
-                            <small class="focus-number">2 de 4 desafios concluídos</small>
+                        <div class="hero-actions">
+                            <button id="btn-continuar" class="btn btn-accent btn-lg" type="button">
+                                <span id="btn-continuar-label">Começar agora</span>
+                                <span aria-hidden="true">→</span>
+                            </button>
+                            <span id="continuar-info" class="hero-next"></span>
                         </div>
                     </div>
 
-
-                    <div class="card home-modules">
-
-                        <!-- COLUNA ESQUERDA -->
-                        <div id='modules-list' class="modules-sidebar">
-                            <!-- Gera via JavaScript -->
+                    <div class="hero-progress" aria-label="Seu progresso">
+                        <div class="level">
+                            <span class="level-badge" aria-hidden="true">🐆</span>
+                            <div>
+                                <span class="muted small">Nível atual</span>
+                                <strong id="nivel-atual" class="level-name">Filhote</strong>
+                            </div>
                         </div>
 
-                        <!-- COLUNA DIREITA -->
-                        <div class="module-content-area">
-                            <div class="module-header-right">
-                                <h3 id="titulo-modulo-selecionado">Fundamentos</h3>
-                                <small id="contagem-desafios-concluidos">3 de 5 concluídos</small>
+                        <div class="stat">
+                            <div class="stat-row">
+                                <span>Desafios concluídos</span>
+                                <strong id="stat-desafios">0 de 0</strong>
                             </div>
-                            <div id="desafios-list" class="module-content" data-module="1">
+                            <div class="progress" role="progressbar" aria-label="Desafios concluídos" aria-valuemin="0" aria-valuemax="100">
+                                <div id="stat-desafios-bar" class="progress-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
 
-                                <!-- Gera via JavaScript -->
-
+                        <div class="stat-grid">
+                            <div class="stat-box">
+                                <strong id="stat-modulos">0/0</strong>
+                                <span class="muted small">módulos completos</span>
+                            </div>
+                            <div class="stat-box">
+                                <strong id="stat-percentual">0%</strong>
+                                <span class="muted small">da trilha</span>
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <!-- DIREITA (40%) -->
-                <div class="home-right">
+                <div class="home-grid">
+                    <!-- Trilha: módulos + desafios -->
+                    <section class="card trilha" aria-labelledby="trilha-titulo">
+                        <header class="section-header">
+                            <h2 id="trilha-titulo">Trilha de aprendizado</h2>
+                            <span class="muted small">Escolha um módulo</span>
+                        </header>
 
-                    <div class="card home-updates">
+                        <div class="trilha-body">
+                            <div id="modules-list" class="modules-list" role="tablist" aria-label="Módulos">
+                                <!-- Gerado via JavaScript -->
+                            </div>
 
-                        <div class="updates-header">
-                            <h3>🛠 Atualizações recentes</h3>
-                            <span class="updates-version">v0.3.2</span>
-                        </div>
-
-                        <div class="updates-list">
-
-                            <div class="update-item">
-                                <span class="update-dot"></span>
-                                <div class="update-content">
-                                    <p class="update-text">
-                                        Adição do tema claro (light mode).
-                                    </p>
-                                    <span class="update-date">Abr. 2026</span>
+                            <div class="module-panel">
+                                <div class="module-panel-header">
+                                    <div>
+                                        <h3 id="titulo-modulo-selecionado">Introdução</h3>
+                                        <p id="descricao-modulo-selecionado" class="muted small"></p>
+                                    </div>
+                                    <span id="contagem-desafios-concluidos" class="pill">0 de 0</span>
+                                </div>
+                                <div id="desafios-list" class="challenge-list">
+                                    <!-- Gerado via JavaScript -->
                                 </div>
                             </div>
-
-                            <div class="update-item">
-                                <span class="update-dot"></span>
-                                <div class="update-content">
-                                    <p class="update-text">
-                                        Autocomplete progressivo no editor.
-                                    </p>
-                                    <span class="update-date">Fev. 2026</span>
-                                </div>
-                            </div>
-
-                            <div class="update-item">
-                                <span class="update-dot"></span>
-                                <div class="update-content">
-                                    <p class="update-text">
-                                        Reformulação completa da página inicial.
-                                    </p>
-                                    <span class="update-date">Fev. 2026</span>
-                                </div>
-                            </div>
-
                         </div>
+                    </section>
 
-                    </div>
-                    <div class="card home-shortcuts">
-                        <h3>Atalhos</h3>
+                    <!-- Lateral -->
+                    <aside class="home-aside">
+                        <section class="card" aria-labelledby="updates-titulo">
+                            <header class="section-header">
+                                <h2 id="updates-titulo">Novidades</h2>
+                                <span class="pill">v0.3.2</span>
+                            </header>
+                            <ul class="updates-list">
+                                <li>
+                                    <p>Adição do tema claro (light mode).</p>
+                                    <span class="muted small">Abr. 2026</span>
+                                </li>
+                                <li>
+                                    <p>Autocomplete progressivo no editor.</p>
+                                    <span class="muted small">Fev. 2026</span>
+                                </li>
+                                <li>
+                                    <p>Reformulação completa da página inicial.</p>
+                                    <span class="muted small">Fev. 2026</span>
+                                </li>
+                            </ul>
+                        </section>
 
-                        <div class="shortcut-item">
-                            <span>Executar código</span>
-                            <kbd>Ctrl + Enter</kbd>
-                        </div>
-
-                        <div class="shortcut-item">
-                            <span>Próximo desafio</span>
-                            <kbd>Ctrl + →</kbd>
-                        </div>
-
-                        <div class="shortcut-item">
-                            <span>Desafio anterior</span>
-                            <kbd>Ctrl + ←</kbd>
-                        </div>
-
-                    </div>
-
+                        <section class="card" aria-labelledby="atalhos-titulo">
+                            <header class="section-header">
+                                <h2 id="atalhos-titulo">Atalhos</h2>
+                            </header>
+                            <ul class="shortcut-list">
+                                <li><span>Executar código</span><span><kbd>Ctrl</kbd> + <kbd>Enter</kbd></span></li>
+                                <li><span>Próximo desafio</span><span><kbd>Ctrl</kbd> + <kbd>→</kbd></span></li>
+                                <li><span>Desafio anterior</span><span><kbd>Ctrl</kbd> + <kbd>←</kbd></span></li>
+                            </ul>
+                        </section>
+                    </aside>
                 </div>
             </div>
-
-
         </section>
 
+        <!-- ============================ EDITOR ============================ -->
         <section id="pg-editor" class="page pg-editor">
 
-            <section id="desafio" class="card">
-                <div class="card-desafio">
-                    <button id="btn-anterior"> &lt;&lt; Desafio Anterior</button>
-                    <h2 id="desafio-number">Loading...</h2>
-                    <button id="btn-proximo">Próximo Desafio >></button>
-                </div>
-                <h2 id="titulo">Aguarde um Momento...</h2>
-                <h3>Instruções:</h3>
-                <p id="instrucoes"></p>
+            <!-- Painel do desafio -->
+            <section id="desafio" class="card desafio-panel" aria-labelledby="titulo">
+                <div class="desafio-scroll">
+                    <div class="desafio-meta">
+                        <span id="desafio-modulo" class="eyebrow">Módulo</span>
+                        <span id="desafio-status" class="status-badge">—</span>
+                    </div>
 
+                    <span id="desafio-number" class="muted small">Carregando...</span>
+                    <h1 id="titulo" class="desafio-title">Aguarde um momento...</h1>
+
+                    <h2 class="label">Instruções</h2>
+                    <p id="instrucoes" class="instrucoes"></p>
+
+                    <div class="dica">
+                        <button id="btn-dica" class="btn btn-ghost btn-sm" type="button" aria-expanded="false" aria-controls="dica">
+                            💡 Ver dica
+                        </button>
+                        <p id="dica" class="dica-texto" hidden></p>
+                    </div>
+                </div>
+
+                <nav class="desafio-nav" aria-label="Navegação entre desafios">
+                    <button id="btn-anterior" class="btn btn-ghost" type="button">← Anterior</button>
+                    <button id="btn-proximo" class="btn btn-ghost" type="button">Próximo →</button>
+                </nav>
             </section>
 
-            <section class="console-section">
-                <div class="console card">
-                    <div class="header-card">
-                        <h3>Console</h3>
-                        <button id="btn-limpar-console">Limpar Console</button>
-                    </div>
-                    <div class="console-output">
-                        <div id="output"></div>
-                    </div>
-                </div>
-            </section>
-
+            <!-- Editor + Console -->
             <section class="workspace">
-                <div class="editor card">
-                    <div class="header-card">
-                        <h3>Editor de Código</h3>
-                        <div class="buttons">
-                            <button id="btn-executar">▶ Executar</button>
+                <div class="card editor-card">
+                    <div class="toolbar">
+                        <span class="file-name"><span class="dot" aria-hidden="true"></span>main.js</span>
+                        <div class="toolbar-actions">
+                            <span class="muted small hide-mobile"><kbd>Ctrl</kbd> + <kbd>Enter</kbd></span>
+                            <button id="btn-executar" class="btn btn-accent" type="button">▶ Executar</button>
                         </div>
                     </div>
-                    <!-- Div container do CodeMirror -->
+                    <!-- Container do CodeMirror -->
                     <div id="editor"></div>
                 </div>
 
+                <div class="card console-card">
+                    <div class="toolbar">
+                        <span class="file-name">Console</span>
+                        <button id="btn-limpar-console" class="btn btn-ghost btn-sm" type="button">Limpar</button>
+                    </div>
+                    <div id="output" class="console-output" role="log" aria-live="polite"></div>
+                </div>
             </section>
 
         </section>
@@ -248,16 +236,11 @@
 
     <footer class="app-footer">
         ©
-        <a href="https://github.com/leodellamatrice/" target="_blank" rel="noopener noreferrer">
-            Leonardo Dell'Amatrice Silva
-        </a>
+        <a href="https://github.com/leodellamatrice/" target="_blank" rel="noopener noreferrer">Leonardo Dell'Amatrice Silva</a>
         · Editor baseado em
-        <a href="https://codemirror.net/" target="_blank" rel="noopener noreferrer">
-            CodeMirror
-        </a>
+        <a href="https://codemirror.net/" target="_blank" rel="noopener noreferrer">CodeMirror</a>
         (MIT)
     </footer>
-
 
     <script type="module" src="js/script.js"></script>
 </body>

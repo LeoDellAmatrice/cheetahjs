@@ -11,6 +11,7 @@ import { FeedbackService } from "./ui/FeedbackService.js"
 import { HeaderUI } from "./ui/Header.js"
 import { PagesControl } from "./ui/PagesControl.js";
 import { LoadHomeModuloDesafios } from "./ui/ModulosDesafios.js";
+import { CodeRunner } from "./core/CodeRunner.js";
 
 window.onload = () => {
 
@@ -23,9 +24,9 @@ window.onload = () => {
     if (page !== "editor") return;
 
     editor.refresh();
-    setTimeout(() => {editor.refresh()}, 500);
+    setTimeout(() => { editor.refresh() }, 500);
   });
-  
+
   // Sistema de navegação interna
   const pagesControl = PagesControl();
 
@@ -33,12 +34,12 @@ window.onload = () => {
   const desafios = DesafioFactory(storage);
   const HomeModuloDesafios = LoadHomeModuloDesafios(desafios, pagesControl);
   HomeModuloDesafios.LoadEditorPageDesafio(false); // Carrega o desafio atual sem navegar para a página do editor
-  
+
   const feedbackToast = Feedback();
   const feedbackHeader = HeaderUI();
 
   const feedback = FeedbackService(feedbackToast, feedbackHeader);
-  
+
   const Settings = SettingsFactory(editor, desafios, feedback, pagesControl);
   const SettingsModal = SettingsModalFactory(Settings);
 
@@ -47,7 +48,8 @@ window.onload = () => {
 
   editor.addToAutoComplete(desafios.getAllUnlock())
 
-  const app = AppController(editor, desafios, HomeModuloDesafios, feedback, output);
+  const codeRunner = CodeRunner();
+  const app = AppController(editor, desafios, HomeModuloDesafios, feedback, output, codeRunner);
 
   document.getElementById("icon-setting").onclick = SettingsModal.show;
 
@@ -56,8 +58,8 @@ window.onload = () => {
   document.getElementById("btn-anterior").onclick = app.desafioAnterior;
 
 
-  
-  document.addEventListener("keydown",  function(e) {
+
+  document.addEventListener("keydown", function (e) {
 
     if ((e.ctrlKey || e.metaKey) && e.key === "Enter") app.executar();
 

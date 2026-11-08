@@ -31,7 +31,7 @@ export function SettingsModalFactory(SettingsFactory) {
                 <div class="config-item">
                 <span>Tema do Editor</span>
                 <select class="config-select" id="config-theme-editor">
-                    <option value="Default">Light</option>
+                    <option value="default">Light</option>
                     <option value="railscasts" selected>Dark</option>
                 </select>
                 </div>

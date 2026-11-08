@@ -5,7 +5,8 @@ export function SettingsFactory(editor, desafios, feedback, pagesControl) {
   function applyAll() {
     const settings = settingsStore.getAll();
 
-    editor.setTheme(settings.theme);
+    // Saves antigos guardavam "Default" (maiúsculo), que o CodeMirror não reconhece
+    editor.setTheme(settings.theme === "Default" ? "default" : settings.theme);
     editor.setFontSize(settings.fontSize);
     editor.setAutocomplete(settings.autocomplete);
     editor.setHighlightLine(settings.highlightLine);

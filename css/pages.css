@@ -1,450 +1,651 @@
-/* CONFIGURACOES GERAIS */
+/* =====================================================================
+   PÁGINAS (controle de exibição)
+   ===================================================================== */
 .page {
     display: none;
     width: 100%;
     height: 100%;
 }
 
-.card {
-    background: var(--back-color);
-    border: 1px solid #333;
-    border-radius: 10px;
-    padding: 15px;
-    height: 100%;
+.section-header {
     display: flex;
-    flex-direction: column;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
-
-    container-type: inline-size;
-    container-name: card;
-}
-
-/* ===== PAGINA EDITOR ===== */
-.pg-editor.active {
-    display: grid;
-    height: 100%;
-    grid-template-columns: 1fr 1.2fr;
-    grid-template-rows: 1fr 0.5fr;
-    grid-template-areas:
-        "desafio workspace"
-        "console workspace";
-    gap: 15px;
-    padding: 15px;
-    flex-grow: 1;
-    overflow: hidden;
-}
-
-@media (max-width: 900px) {
-    .pg-editor.active {
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(3, 1fr);
-        grid-template-areas:
-            "desafio"
-            "console"
-            "workspace";
-        height: auto;
-        overflow-y: auto;
-    }
-}
-
-.card-desafio {
-    display: flex;
+    align-items: center;
     justify-content: space-between;
     gap: 12px;
-    text-align: center;
+    margin-bottom: 16px;
 }
 
-@container card (max-width: 500px) {
-    .card-desafio {
-        display: grid;
-        justify-content: stretch;
-        grid-column: 2;
-        grid-row: 2;
-    }
-
-    #btn-anterior,
-    #btn-proximo {
-        grid-row-start: 2;
-    }
-
-    #desafio-number {
-        grid-column: span 2;
-    }
+.section-header h2 {
+    font-size: 1rem;
+    font-weight: 700;
 }
 
-/* Workspace lado a lado */
-.workspace {
-    grid-area: workspace;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    height: 100%;
-}
-
-#editor {
-    flex-grow: 1;
-    overflow-y: hidden;
-}
-
-#titulo {
-    text-align: center;
-}
-
-#instrucoes {
-    white-space: pre-wrap;
-}
-
-@media (max-width: 900px) {
-    .workspace {
-        flex-direction: column;
-        gap: 0;
-    }
-}
-
-.header-card {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-}
-
-.console-output {
-    flex-grow: 1;
-    /* Ocupa o espaço restante */
-    overflow: hidden;
-    /* Esconde overflow do container */
-}
-
-/* Console estilo terminal */
-#output {
-    background: var(--back2-color);
-    color: #eaeaea;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    border-radius: 8px;
-    min-height: 100px;
-    height: 100%;
-    padding: 12px;
-    white-space: pre-wrap;
-    box-shadow: inset 0 0 0 1px #333;
-
-    flex-grow: 1;
-    /* Ocupa todo o espaço do container */
-    overflow-y: auto;
-    /* Scroll vertical apenas quando necessário */
-    max-height: 300px;
-    /* Nunca ultrapassa a altura do container */
-    min-height: 100px;
-    /* Altura mínima para ser visível */
-    word-break: break-word;
-    /* Quebra palavras longas */
-    overflow-wrap: break-word;
-    /* Quebra palavras longas */
-}
-
-
-
-
-/* ===== PAGINA HOME ===== */
+/* =====================================================================
+   HOME
+   ===================================================================== */
 .pg-home.active {
     display: block;
-    height: 100%;
-    padding: 5px 20px;
     overflow-y: auto;
 }
 
-.home-grid {
-    display: grid;
-    height: 100%;
-    width: 100%;
-    grid-template-columns: 7fr 3fr;
-    gap: 15px;
-}
-
-/* RESPONSIVO */
-@media (max-width: 900px) {
-    .home-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* LADO ESQUERDO */
-
-.home-left {
-    display: grid;
-    grid-template-columns: 2fr 2fr;
-    grid-template-rows: repeat(3, auto);
-    gap: 10px;
-}
-
-.home-modules {
-    grid-column: span 2
-}
-
-/* ===== HOME INTRO ===== */
-
-.home-intro .intro-title {
-    color: var(--primary-color);
-}
-
-.home-intro {
+.home-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 20px 40px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    text-align: center;
+    gap: 20px;
 }
 
-.intro-header {
+/* ---------- Hero ---------- */
+.hero {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 32px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* brilho amarelo sutil no canto */
+.hero::before {
+    content: "";
+    position: absolute;
+    top: -120px;
+    left: -120px;
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(circle, var(--accent-soft), transparent 70%);
+    pointer-events: none;
+}
+
+.hero-intro {
+    position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    gap: 14px;
+}
+
+.hero-title {
+    font-size: clamp(1.75rem, 3.4vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.hero-subtitle {
+    color: var(--text-muted);
+    font-size: 1.0625rem;
+    max-width: 52ch;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
+    gap: 14px;
+    margin-top: 8px;
 }
 
-/* ====== HOME PROGRESS ====== */
-.home-progress {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    text-align: center;
-    text-wrap: nowrap;
+.hero-next {
+    font-size: 0.875rem;
+    color: var(--text-muted);
 }
 
-.user-level p {
-    font-size: 11px;
-}
+.hero-next strong { color: var(--text); }
 
-.home-progress .progress-bar {
-    width: 100%;
-    height: 10px;
-    background: var(--back2-color);
-    border-radius: 6px;
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    width: 16%;
-    background: var(--primary-color);
-    border-radius: 6px;
-    transition: width 0.3s ease;
-}
-
-/* Barra de progresso */
-
-.focus-progress {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    margin-top: 5px;
-}
-
-.focus-bar {
-    width: 80%;
-    height: 6px;
-    background-color: var(--back2-color);
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.focus-fill {
-    height: 100%;
-    background-color: #4CAF50;
-    border-radius: 10px;
-    transition: width 0.3s ease;
-}
-
-/* LADO DIREITO */
-
-.home-right {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-/* ===== CARD ATUALIZAÇOES ==== */
-
-.home-updates {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-    height: auto;
-}
-
-.updates-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.updates-version {
-    font-size: 12px;
-    color: #ddd;
-    background-color: #1f1f1f;
-    padding: 4px 8px;
-    border-radius: 6px;
-}
-
-.updates-list {
+.hero-progress {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 18px;
+    padding: 20px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
 }
 
-.update-item {
+.level {
     display: flex;
-    gap: 12px;
-    align-items: flex-start;
-}
-
-.update-dot {
-    width: 8px;
-    height: 8px;
-    margin-top: 6px;
-    background-color: #4CAF50;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-.update-content {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.update-text {
-    font-size: 14px;
-    color: var(--text-primary-color);
-    margin: 0;
-}
-
-.update-date {
-    font-size: 12px;
-    color: #777;
-}
-
-/* ===== CARD SHORTCUTS ===== */
-
-.home-shortcuts {
-    display: flex;
-    flex-direction: column;
+    align-items: center;
     gap: 12px;
 }
 
-.shortcut-item {
+.level > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.level-badge {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    font-size: 1.5rem;
+    border-radius: 12px;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+}
+
+.level-name { font-size: 1.125rem; }
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stat-row {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    font-size: 0.875rem;
 }
 
-kbd {
-    background: var(--back2-color);
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 12px;
-    border: 1px solid #333;
-}
-
-
-
-.home-modules {
+.stat-grid {
     display: grid;
-    grid-template-columns: 3fr 2fr;
-    border: 1px solid #2c2c2c;
-    border-radius: 12px;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
 }
 
-/* ESQUERDA */
-.modules-sidebar {
-    background-color: var(--back2-color);
-    border-right: 1px solid #2c2c2c;
+.stat-box {
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    border: 1px solid var(--border);
+}
+
+.stat-box strong { font-size: 1.375rem; }
+
+/* ---------- Grid principal ---------- */
+.home-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 20px;
+    align-items: start;
+}
+
+.home-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ---------- Trilha ---------- */
+.trilha-body {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 20px;
+}
+
+.modules-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .module-item {
-    padding: 12px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 12px;
+    text-align: left;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: 0.2s;
-    border-left: 4px solid #222;
+    transition: background 0.15s, border-color 0.15s;
 }
 
-.module-item:hover {
-    background-color: var(--back-hover-color);
-    border-left: 4px solid #414141;
-}
+.module-item:hover { background: var(--surface-2); }
 
 .module-item.active {
-    background-color: var(--back-active-color);
-    border-left: 4px solid #4CAF50;
+    background: var(--accent-soft);
+    border-color: var(--accent);
 }
 
-/* DIREITA */
-.module-content-area {
-    padding-left: 16px;
+.module-index {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    background: var(--surface-2);
+    border: 1px solid var(--border-strong);
 }
 
-.module-header-right {
+.module-item.complete .module-index {
+    background: var(--success-soft);
+    border-color: var(--success);
+    color: var(--success);
+}
+
+.module-item.active .module-index {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+}
+
+.module-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+}
+
+.module-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.module-item .progress { display: block; height: 4px; border: 0; }
+.module-item.complete .progress-fill { background: var(--success); }
+
+.module-count {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Painel de desafios do módulo ---------- */
+.module-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+}
+
+.module-panel-header {
     display: flex;
     justify-content: space-between;
-    padding: 0 8px;
+    align-items: flex-start;
+    gap: 12px;
 }
 
-.module-content {
-    overflow-y: scroll;
-}
+.module-panel-header h3 { font-size: 1.125rem; }
 
-/* ===== CHALLENGE CARD ===== */
+.challenge-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
 
 .challenge-card {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    padding: 14px 18px;
-    border-radius: 10px;
-    margin-bottom: 12px;
-    background-color: var(--back2-color);
-    border: 1px solid #2c2c2c;
-    transition: 0.2s ease;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 14px;
+    text-align: left;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
     cursor: pointer;
+    transition: border-color 0.15s, transform 0.15s, background 0.15s;
 }
 
-.challenge-card:hover {
-    transform: translateY(2px);
-    border-color: #4CAF50;
+.challenge-card:not(.locked):hover {
+    border-color: var(--accent);
+    transform: translateX(3px);
 }
 
-/* LADO ESQUERDO */
-.challenge-info h4 {
-    margin: 0;
-    font-size: 15px;
+.challenge-icon {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    border: 1px solid var(--border-strong);
+    color: var(--text-muted);
 }
 
-/* STATUS VISUAL */
-.challenge-card.done {
-    border-left: 4px solid #4CAF50;
+.challenge-title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+}
+
+.challenge-status {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.challenge-card.done .challenge-icon {
+    background: var(--success-soft);
+    border-color: var(--success);
+    color: var(--success);
+}
+
+.challenge-card.done .challenge-status {
+    background: var(--success-soft);
+    color: var(--success);
 }
 
 .challenge-card.current {
-    border-left: 4px solid #2196F3;
+    border-color: var(--accent);
+    background: var(--accent-soft);
 }
 
-.challenge-card.current:hover {
-    border-color: #2196F3;
+.challenge-card.current .challenge-icon {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+}
+
+.challenge-card.current .challenge-status {
+    background: var(--accent);
+    color: var(--accent-ink);
 }
 
 .challenge-card.locked {
-    border-left: 4px solid #555;
-    opacity: 0.6;
     cursor: not-allowed;
+    opacity: 0.55;
 }
 
-.challenge-card.locked:hover {
-    border-color: #555;
+.challenge-card.locked .challenge-status {
+    color: var(--text-muted);
+    border: 1px solid var(--border-strong);
 }
 
-/* TEXTO DO STATUS */
-.challenge-status {
-    font-size: 13px;
-    font-weight: 500;
-    text-wrap: nowrap;
+/* ---------- Lateral ---------- */
+.updates-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.updates-list li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 0.875rem;
+}
+
+.updates-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+.shortcut-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 0.875rem;
+}
+
+.shortcut-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+/* =====================================================================
+   EDITOR
+   ===================================================================== */
+.pg-editor.active {
+    display: grid;
+    grid-template-columns: minmax(300px, 380px) minmax(0, 1fr);
+    gap: 16px;
+    padding: 16px;
+    height: 100%;
+    min-height: 0;
+}
+
+/* ---------- Painel do desafio ---------- */
+.desafio-panel {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.desafio-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.desafio-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.desafio-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+}
+
+.label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.instrucoes {
+    white-space: pre-wrap;
+    font-size: 1rem;
+    line-height: 1.65;
+}
+
+.status-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border-strong);
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.status-badge.done {
+    background: var(--success-soft);
+    border-color: transparent;
+    color: var(--success);
+}
+
+.status-badge.current {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--text);
+}
+
+.dica {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.dica-texto {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    font-size: 0.9375rem;
+}
+
+.desafio-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 16px;
+    border-top: 1px solid var(--border);
+    background: var(--surface-2);
+}
+
+/* ---------- Editor + console ---------- */
+.workspace {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) minmax(150px, 32%);
+    gap: 16px;
+    min-height: 0;
+    min-width: 0;
+}
+
+.editor-card,
+.console-card {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 10px 8px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-2);
+    min-height: 48px;
+}
+
+.toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.file-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 600;
+}
+
+.file-name .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+#editor {
+    flex: 1;
+    min-height: 0;
+}
+
+.console-output {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px 16px;
+    background: var(--console-bg);
+    color: var(--console-text);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.console-output:empty::before {
+    content: "A saída do seu código aparece aqui.";
+    color: #6b6b74;
+}
+
+/* =====================================================================
+   RESPONSIVO
+   ===================================================================== */
+@media (max-width: 1000px) {
+    .home-grid { grid-template-columns: 1fr; }
+    .home-aside {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 900px) {
+    .hero {
+        grid-template-columns: 1fr;
+        padding: 24px;
+    }
+
+    .trilha-body { grid-template-columns: 1fr; }
+
+    /* módulos viram uma faixa rolável na horizontal */
+    .modules-list {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 6px;
+        scroll-snap-type: x mandatory;
+    }
+
+    .module-item {
+        flex: 0 0 210px;
+        scroll-snap-align: start;
+        border-color: var(--border);
+    }
+
+    .pg-editor.active {
+        grid-template-columns: 1fr;
+        height: auto;
+        min-height: 100%;
+        overflow-y: auto;
+        padding: 12px;
+        gap: 12px;
+    }
+
+    /* no celular a página inteira rola, então os blocos têm altura própria */
+    .pg-editor.active { display: flex; flex-direction: column; }
+    .desafio-panel { overflow: visible; flex-shrink: 0; }
+    .desafio-scroll { overflow: visible; padding: 18px; }
+
+    .workspace {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .editor-card { height: 55vh; min-height: 320px; flex-shrink: 0; }
+    .console-card { height: 240px; flex-shrink: 0; }
+
+    /* no mobile a página toda rola */
+    main:has(.pg-editor.active) { overflow-y: auto; }
+}
+
+@media (max-width: 600px) {
+    .home-container { padding: 16px 12px 32px; gap: 14px; }
+    .home-aside { grid-template-columns: 1fr; }
+    .card { padding: 16px; }
+    .card.desafio-panel,
+    .card.editor-card,
+    .card.console-card { padding: 0; }
+    .hero { padding: 20px; gap: 20px; }
+    .hero-actions .btn { width: 100%; }
+    .challenge-status { display: none; }
 }

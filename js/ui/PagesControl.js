@@ -28,6 +28,14 @@ export function PagesControl() {
             destino.classList.add("active");
         }
 
+        // Destaca o link da página atual no menu
+        document.querySelectorAll(".header-nav a").forEach(a => {
+            const ativo = a.dataset.page === pagina;
+            a.classList.toggle("active", ativo);
+            if (ativo) a.setAttribute("aria-current", "page");
+            else a.removeAttribute("aria-current");
+        });
+
         window.dispatchEvent(new CustomEvent("pageChanged", { detail: pagina }));
     }
 
