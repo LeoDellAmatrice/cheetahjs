@@ -1,199 +1,233 @@
 import { settingsStore } from '../core/SettingsStore.js';
+import { criarModal, ICONE_FECHAR } from "./Modal.js";
 
-export function SettingsModalFactory(SettingsFactory) {
+const FONTE_MIN = 10;
+const FONTE_MAX = 32;
 
-    let modalElement = null;
-    
-    function criarModal() {
-        if (modalElement) return;
+export function SettingsModalFactory(SettingsFactory, { abrirIntroducao } = {}) {
 
-        modalElement = document.createElement("div");
-        modalElement.className = "modal-overlay";
+    let modal = null;
 
-        modalElement.innerHTML = `
-        <!-- Modal de Configurações -->
-        <div id="modal-configuracoes" class="modal">
-        <div class="modal-conteudo modal-config">
+    function criarModalConfig() {
+        if (modal) return;
 
-            <!-- Cabeçalho -->
-            <div class="modal-cabecalho">
-            <h2>Configurações</h2>
-            <button class="modal-fechar" id="config-fechar">&times;</button>
-            </div>
+        modal = criarModal({
+            tituloId: "config-titulo",
+            classe: "modal-config",
+            html: `
+                <header class="modal-topo">
+                    <div>
+                        <h2 id="config-titulo">Configurações</h2>
+                        <p class="muted small">Deixe o CheetahJS do seu jeito.</p>
+                    </div>
+                    <button type="button" class="icon-button modal-fechar" id="config-fechar" aria-label="Fechar configurações">
+                        ${ICONE_FECHAR}
+                    </button>
+                </header>
 
-            <!-- Conteúdo -->
-            <div class="modal-config-conteudo">
+                <div class="modal-corpo">
 
-            <!-- Seção: Aparência -->
-            <div class="config-secao">
-                <h3>Aparência</h3>
+                    <!-- Aparência -->
+                    <section class="config-secao">
+                        <h3 class="config-rotulo">Aparência</h3>
+                        <div class="config-grupo">
+                            <div class="config-item">
+                                <div class="config-texto">
+                                    <label for="config-theme-site">Tema do site</label>
+                                    <span>Cores da interface</span>
+                                </div>
+                                <select class="config-select" id="config-theme-site">
+                                    <option value="dark-mode">Escuro</option>
+                                    <option value="light-mode">Claro</option>
+                                </select>
+                            </div>
 
-                <div class="config-item">
-                <span>Tema do Editor</span>
-                <select class="config-select" id="config-theme-editor">
-                    <option value="default">Light</option>
-                    <option value="railscasts" selected>Dark</option>
-                </select>
+                            <div class="config-item">
+                                <div class="config-texto">
+                                    <label for="config-theme-editor">Tema do editor</label>
+                                    <span>Cores do código</span>
+                                </div>
+                                <select class="config-select" id="config-theme-editor">
+                                    <option value="railscasts">Escuro</option>
+                                    <option value="default">Claro</option>
+                                </select>
+                            </div>
+
+                            <div class="config-item">
+                                <div class="config-texto">
+                                    <label for="config-font-size">Tamanho da fonte</label>
+                                    <span>Texto do editor, em pixels</span>
+                                </div>
+                                <div class="stepper">
+                                    <button type="button" class="stepper-btn" data-passo="-1" aria-label="Diminuir fonte">−</button>
+                                    <input id="config-font-size" class="stepper-input" type="number" min="${FONTE_MIN}" max="${FONTE_MAX}" inputmode="numeric">
+                                    <button type="button" class="stepper-btn" data-passo="1" aria-label="Aumentar fonte">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Editor -->
+                    <section class="config-secao">
+                        <h3 class="config-rotulo">Editor</h3>
+                        <div class="config-grupo">
+                            <label class="config-item">
+                                <span class="config-texto">
+                                    <span class="config-nome">Autocomplete</span>
+                                    <span>Sugere palavras que você já desbloqueou</span>
+                                </span>
+                                <input type="checkbox" role="switch" class="switch" id="config-autocomplete">
+                            </label>
+
+                            <label class="config-item">
+                                <span class="config-texto">
+                                    <span class="config-nome">Destacar linha atual</span>
+                                    <span>Realça a linha onde está o cursor</span>
+                                </span>
+                                <input type="checkbox" role="switch" class="switch" id="config-highlight-line">
+                            </label>
+
+                            <label class="config-item">
+                                <span class="config-texto">
+                                    <span class="config-nome">Começar desafios em branco</span>
+                                    <span>Limpa o editor ao ir para um desafio sem código inicial</span>
+                                </span>
+                                <input type="checkbox" role="switch" class="switch" id="config-clear-editor">
+                            </label>
+                        </div>
+                    </section>
+
+                    <!-- Feedback -->
+                    <section class="config-secao">
+                        <h3 class="config-rotulo">Feedback</h3>
+                        <div class="config-grupo">
+                            <label class="config-item">
+                                <span class="config-texto">
+                                    <span class="config-nome">Esconder pop-ups</span>
+                                    <span>Não recomendado para quem está começando</span>
+                                </span>
+                                <input type="checkbox" role="switch" class="switch" id="config-hide-pop-up">
+                            </label>
+                        </div>
+                    </section>
+
+                    <!-- Ajuda -->
+                    <section class="config-secao">
+                        <h3 class="config-rotulo">Ajuda</h3>
+                        <div class="config-grupo">
+                            <div class="config-item">
+                                <div class="config-texto">
+                                    <span class="config-nome">Introdução</span>
+                                    <span>Veja de novo como o CheetahJS funciona</span>
+                                </div>
+                                <button type="button" class="btn btn-ghost btn-sm" id="config-rever-intro">Rever</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Progresso -->
+                    <section class="config-secao">
+                        <h3 class="config-rotulo">Progresso</h3>
+                        <div class="config-grupo config-perigo">
+                            <div class="config-item">
+                                <div class="config-texto">
+                                    <span class="config-nome">Reiniciar progresso</span>
+                                    <span>Apaga todos os desafios concluídos. Não dá para desfazer.</span>
+                                </div>
+                                <button type="button" class="btn btn-danger btn-sm" id="config-reset-desafio">Reiniciar</button>
+                            </div>
+                        </div>
+                    </section>
                 </div>
 
-                <div class="config-item">
-                <span>Tema do Site</span>
-                <select class="config-select" id="config-theme-site">
-                    <option value="light-mode">Light</option>
-                    <option value="dark-mode" selected>Dark</option>
-                </select>
-                </div>
-
-                <div class="config-item">
-                <span>Tamanho da Fonte</span>
-                <input id="config-font-size" class='config-input' type="number" value="16" min='10' max='60'>
-                </div>
-            </div>
-
-            <!-- Seção: Editor -->
-            <div class="config-secao">
-                <h3>Editor</h3>
-
-                <label class="checkbox-container">
-                <input type="checkbox" id="config-autocomplete">
-                <span class="checkmark"></span>
-                <span class="checkbox-text">Autocomplete</span>
-                </label>
-
-                <label class="checkbox-container">
-                <input type="checkbox" id="config-highlight-line">
-                <span class="checkmark"></span>
-                <span class="checkbox-text">Destacar linha atual</span>
-                </label>
-
-                <label class="checkbox-container">
-                <input type="checkbox" id="config-clear-editor">
-                <span class="checkmark"></span>
-                <span class="checkbox-text">Limpar editor ao passar de desafio</span>
-                </label>
-            </div>
-            
-            <!-- Seção: FeedBack -->
-            <div class="config-secao">
-                <h3>FeedBack</h3>
-
-                <label class="checkbox-container">
-                <input type="checkbox" id="config-hide-pop-up">
-                <span class="checkmark"></span>
-                <span class="checkbox-text">Esconder PopUp (Não recomendado para novos usuarios)</span>
-                </label>
-            </div>
-
-            <!-- Seção: Progresso -->
-            <div class="config-secao">
-                <h3>Progresso</h3>
-
-                <div class="config-item alerta">
-                <span>Reiniciar progresso</span>
-                <button class="btn btn-danger" id="config-reset-desafio">
-                    Resetar
-                </button>
-                </div>
-            </div>
-
-            </div>
-
-            <!-- Rodapé -->
-            <div class="modal-rodape">
-            <button class="btn btn-danger" id="config-reset">
-                Resetar configurações
-            </button>
-            <button class="btn btn-primario" id="config-sair">
-                Fechar
-            </button>
-            </div>
-
-        </div>
-        </div>
-        `;
-
-
-        document.body.appendChild(modalElement);
-
-        initConfigs();
+                <footer class="modal-rodape">
+                    <button type="button" class="btn btn-ghost" id="config-reset">Restaurar padrões</button>
+                    <button type="button" class="btn btn-accent" id="config-sair" data-foco-inicial>Pronto</button>
+                </footer>
+            `
+        });
 
         initModalButtons();
-
     }
 
     function showModal() {
-        criarModal();
-        modalElement.style.display = "flex";
+        criarModalConfig();
+        initConfigs(); // sempre mostra os valores atuais
+        modal.abrir();
     }
 
     function closeModal() {
-        modalElement.style.display = "none";
+        modal?.fechar();
     }
 
-    function resetConfig(){
+    function resetConfig() {
         settingsStore.setDefault();
         SettingsFactory.applyAll();
-
         initConfigs();
     }
 
-    function initConfigs(){
+    function initConfigs() {
+        const settings = settingsStore.getAll();
+        const $ = (id) => modal.dialog.querySelector(`#${id}`);
 
-        const settings = settingsStore.getAll()
+        // saves antigos podiam ter "Default" com D maiúsculo
+        $("config-theme-editor").value = settings.theme === "Default" ? "default" : settings.theme;
+        $("config-theme-site").value = settings.themeSite;
+        $("config-font-size").value = settings.fontSize;
+        $("config-autocomplete").checked = settings.autocomplete;
+        $("config-highlight-line").checked = settings.highlightLine;
+        $("config-clear-editor").checked = settings.clearEditor;
+        $("config-hide-pop-up").checked = settings.hidePopUp;
+    }
 
-        document.getElementById('config-theme-editor').value = settings.theme;
+    function definirFonte(valor) {
+        const tamanho = Math.min(FONTE_MAX, Math.max(FONTE_MIN, Math.round(Number(valor) || 16)));
+        modal.dialog.querySelector("#config-font-size").value = tamanho;
+        SettingsFactory.update("fontSize", tamanho);
+    }
 
-        document.getElementById('config-theme-site').value = settings.themeSite;
+    // Reiniciar progresso pede confirmação: o primeiro clique só "arma" o botão
+    let timerConfirmacao = null;
 
-        document.getElementById("config-font-size").value = settings.fontSize;
-
-        document.getElementById("config-autocomplete").checked = settings.autocomplete;
-
-        document.getElementById('config-highlight-line').checked = settings.highlightLine;
-
-        document.getElementById("config-clear-editor").checked = settings.clearEditor;
-
-        document.getElementById("config-hide-pop-up").checked = settings.hidePopUp;
+    function reiniciarProgresso(botao) {
+        if (botao.classList.contains("confirmando")) {
+            SettingsFactory.resetDesafio();
+            return;
+        }
+        botao.classList.add("confirmando");
+        botao.textContent = "Tem certeza? Clique de novo";
+        clearTimeout(timerConfirmacao);
+        timerConfirmacao = setTimeout(() => {
+            botao.classList.remove("confirmando");
+            botao.textContent = "Reiniciar";
+        }, 4000);
     }
 
     function initModalButtons() {
+        const $ = (id) => modal.dialog.querySelector(`#${id}`);
 
-        document.getElementById('config-fechar').onclick = closeModal;
+        $("config-fechar").onclick = closeModal;
+        $("config-sair").onclick = closeModal;
+        $("config-reset").onclick = resetConfig;
+        $("config-reset-desafio").onclick = (e) => reiniciarProgresso(e.currentTarget);
 
-        document.getElementById('config-sair').onclick = closeModal;
-
-        document.getElementById("config-reset").onclick = resetConfig;
-
-        document.getElementById("config-reset-desafio").onclick = SettingsFactory.resetDesafio;
-
-        document.getElementById('config-theme-editor').onchange = (e) => {
-            SettingsFactory.update('theme', e.target.value);
+        $("config-rever-intro").onclick = () => {
+            closeModal();
+            abrirIntroducao?.();
         };
 
-        document.getElementById('config-theme-site').onchange = (e) => {
-            SettingsFactory.update('themeSite', e.target.value);
-        };
+        $("config-theme-editor").onchange = (e) => SettingsFactory.update("theme", e.target.value);
+        $("config-theme-site").onchange = (e) => SettingsFactory.update("themeSite", e.target.value);
+        $("config-font-size").onchange = (e) => definirFonte(e.target.value);
 
-        document.getElementById('config-font-size').onchange = (e) => {
-            SettingsFactory.update('fontSize', Number(e.target.value));
-        };
+        modal.dialog.querySelectorAll(".stepper-btn").forEach((btn) => {
+            btn.onclick = () => definirFonte(Number($("config-font-size").value) + Number(btn.dataset.passo));
+        });
 
-        document.getElementById('config-autocomplete').onchange = (e) => {
-            SettingsFactory.update('autocomplete', e.target.checked);
-        };
-
-        document.getElementById('config-highlight-line').onchange = (e) => {
-            SettingsFactory.update('highlightLine', e.target.checked);
-        };
-
-        document.getElementById('config-clear-editor').onchange = (e) => {
-            SettingsFactory.update('clearEditor', e.target.checked)
-        }
-
-        document.getElementById("config-hide-pop-up").onchange = (e) => {
-            SettingsFactory.update("hidePopUp", e.target.checked)
-        }
-
+        $("config-autocomplete").onchange = (e) => SettingsFactory.update("autocomplete", e.target.checked);
+        $("config-highlight-line").onchange = (e) => SettingsFactory.update("highlightLine", e.target.checked);
+        $("config-clear-editor").onchange = (e) => SettingsFactory.update("clearEditor", e.target.checked);
+        $("config-hide-pop-up").onchange = (e) => SettingsFactory.update("hidePopUp", e.target.checked);
     }
 
     return {

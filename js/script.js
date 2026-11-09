@@ -41,7 +41,7 @@ window.onload = () => {
   const feedback = FeedbackService(feedbackToast, feedbackHeader);
 
   const Settings = SettingsFactory(editor, desafios, feedback, pagesControl);
-  const SettingsModal = SettingsModalFactory(Settings);
+  const SettingsModal = SettingsModalFactory(Settings, { abrirIntroducao: () => IntroModal.show() });
 
   const output = Output(editor, feedback);
   const IntroModal = IntroModalFactory();

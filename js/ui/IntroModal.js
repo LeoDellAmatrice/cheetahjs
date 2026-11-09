@@ -1,307 +1,215 @@
-const INTRO_KEY = "intro_modal_v1";
+import { criarModal, ICONE_FECHAR } from "./Modal.js";
+
+const INTRO_KEY = "intro_modal_v2";
+
+// ---------------------------------------------------------------------
+// Conteúdo de cada passo da introdução
+// ---------------------------------------------------------------------
+const PASSOS = [
+    {
+        icone: "🐆",
+        titulo: "Bem-vindo ao CheetahJS!",
+        conteudo: `
+            <p class="intro-lead">
+                Aqui você aprende <strong>lógica de programação</strong> escrevendo JavaScript de verdade,
+                direto no navegador. Sem instalar nada.
+            </p>
+            <div class="intro-preview" aria-hidden="true">
+                <div class="intro-preview-barra">
+                    <span></span><span></span><span></span>
+                    <em>main.js</em>
+                </div>
+                <pre class="intro-preview-codigo"><span class="t-obj">console</span>.<span class="t-fn">log</span>(<span class="t-str">"Olá, Mundo!"</span>)</pre>
+                <div class="intro-preview-saida"><span class="t-seta">›</span> Olá, Mundo!</div>
+            </div>
+        `
+    },
+    {
+        icone: "🧭",
+        titulo: "Como funciona",
+        conteudo: `
+            <ol class="intro-passos">
+                <li>
+                    <span class="intro-num">1</span>
+                    <div>
+                        <strong>Leia o conceito</strong>
+                        <p>Cada desafio começa com uma explicação curta e um exemplo.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="intro-num">2</span>
+                    <div>
+                        <strong>Escreva e execute</strong>
+                        <p>Programe no editor e veja o resultado no console na hora.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="intro-num">3</span>
+                    <div>
+                        <strong>Avance na trilha</strong>
+                        <p>Ao concluir, o próximo desafio é liberado e novas palavras entram no autocomplete.</p>
+                    </div>
+                </li>
+            </ol>
+        `
+    },
+    {
+        icone: "💡",
+        titulo: "Para não travar",
+        conteudo: `
+            <ul class="intro-dicas">
+                <li><span><kbd>Ctrl</kbd> + <kbd>Enter</kbd></span> Executa o seu código</li>
+                <li><span><kbd>Ctrl</kbd> + <kbd>→</kbd> / <kbd>←</kbd></span> Próximo / anterior desafio</li>
+                <li><span class="intro-chip">💡 Ver dica</span> Uma pista quando você empacar</li>
+            </ul>
+            <p class="intro-nota">
+                Errar faz parte! Quando algo der errado, o console mostra a linha e explica o que aconteceu.
+            </p>
+        `
+    },
+    {
+        icone: "🚀",
+        titulo: "Tudo pronto!",
+        conteudo: `
+            <p class="intro-lead">
+                Seu progresso fica salvo neste navegador, então você pode parar e voltar quando quiser.
+            </p>
+            <p class="intro-nota">
+                O primeiro desafio leva menos de um minuto. Você pode rever esta introdução
+                quando quiser em <strong>Configurações</strong>.
+            </p>
+        `
+    }
+];
 
 export function IntroModalFactory() {
 
-    let modalElement = null;
-    let paginaAtual = 1;
-    const totalPaginas = 4;
+    let modal = null;
+    let passoAtual = 0;
 
-    function criarModal() {
-        if (modalElement) return;
-
-        modalElement = document.createElement("div");
-        modalElement.className = "modal-overlay";
-
-        modalElement.innerHTML = `
-        <!-- Modal de Boas-Vindas com Páginas -->
-        <div id="modal-bemvindo" class="modal">
-        <div class="modal-conteudo">
-            <!-- Cabeçalho fixo -->
-            <div class="modal-cabecalho">
-            <img src="assets/img/logo_01js.png" width="36" heigth="36">
-            <h2 id="intro-modal-titulo">Bem-vindo ao CheetahJS!</h2>
-            <div class="modal-indicadores">
-                <span class="indicador ativo" data-pagina="1"></span>
-                <span class="indicador" data-pagina="2"></span>
-                <span class="indicador" data-pagina="3"></span>
-                <span class="indicador" data-pagina="4"></span>
-            </div>
-            <button class="modal-fechar" id="intro-modal-fechar">&times;</button>
-            </div>
-            
-            <!-- Container das páginas -->
-            <div class="modal-paginas-container">
-            <!-- Página 1 -->
-            <div class="modal-pagina ativo" data-pagina="1">
-                <div class="pagina-conteudo">
-                <h3>Aprenda Lógica de Programação</h3>
-                <p class="pagina-texto">
-                    Vamos aprender juntos de forma prática e divertida!
-                </p>
-                <p class="pagina-destaque">
-                    Resolva desafios, escreva código e veja os resultados instantaneamente.
-                </p>
-                </div>
-            </div>
-            
-            <!-- Página 2 -->
-            <div class="modal-pagina" data-pagina="2">
-                <div class="pagina-conteudo">
-                <h3>Como Funciona</h3>
-                
-                <div class="funcionalidade">
-                    <div class="func-icon">
-                        <img src="assets/img/progression-icon.svg" alt="">
-                    </div>
-                    <div class="func-texto">
-                    <strong>Desafios Progressivos</strong>
-                    <p>Comece do básico e avance em dificuldade</p>
-                    </div>
-                </div>
-                
-                <div class="funcionalidade">
-                    <div class="func-icon">
-                        <img src="assets/img/save-icon.svg" alt="">
-                    </div>
-                    <div class="func-texto">
-                    <strong>Progresso Salvo</strong>
-                    <p>Continue de onde parou a qualquer momento</p>
-                    </div>
-                </div>
-                
-                <div class="funcionalidade">
-                    <div class="func-icon">
-                        <img src="assets/img/code-icon.svg" alt="">
-                    </div>
-                    <div class="func-texto">
-                    <strong>Autocomplete Progressivo</strong>
-                    <p>Desbloqueie palavras ao completar desafios</p>
-                    </div>
-                </div>
-                </div>
-            </div>
-            
-            <!-- Página 3 -->
-            <div class="modal-pagina" data-pagina="3">
-                <div class="pagina-conteudo">
-                <h3>Atalhos e Dicas</h3>
-                
-                <div class="dica-item">
-                    <div class="dica-atalho">
-                    <kbd>Ctrl</kbd> + <kbd>Enter</kbd>
-                    </div>
-                    <div class="dica-texto">
-                    Executa seu código rapidamente
-                    </div>
-                </div>
-                
-                <div class="dica-item">
-                    <div class="dica-atalho">
-                    <kbd>Ctrl</kbd> + <kbd>Seta Direita</kbd>
-                    </div>
-                    <div class="dica-texto">
-                    Ir para o próximo desafio
-                    </div>
-                </div>
-                
-                <div class="dica-item">
-                    <div class="dica-atalho">
-                    <kbd>Ctrl</kbd> + <kbd>Seta Esquerda</kbd>
-                    </div>
-                    <div class="dica-texto">
-                    Ir para o desafio anterior
-                    </div>
-                </div>
-                
-                <p class="pagina-nota">
-                    Ou use os botões de navegação para ir para o próximo ou voltar para o desafio anterior.
-                </p>
-                </div>
-            </div>
-            
-            <!-- Página 4 -->
-            <div class="modal-pagina" data-pagina="4">
-                <div class="pagina-conteudo">
-                <h3>Pronto para Começar?</h3>
-                
-                <div class="checklist">
-                    <div class="check-item">
-                    <span class="check-icon">✓</span>
-                    <span>Editor de código configurado</span>
-                    </div>
-                    <div class="check-item">
-                    <span class="check-icon">✓</span>
-                    <span>Desafios disponíveis</span>
-                    </div>
-                    <div class="check-item">
-                    <span class="check-icon">✓</span>
-                    <span>Console de saída pronto</span>
-                    </div>
-                </div>
-                
-                <div class="comecar-acoes">
-                    <label class="checkbox-container">
-                    <input type="checkbox" id="nao-mostrar-novamente">
-                    <span class="checkmark"></span>
-                    <span class="checkbox-text">Não mostrar novamente</span>
-                    </label>
-                </div>
-                </div>
-            </div>
-            </div>
-            
-            <!-- Rodapé com navegação -->
-            <div class="modal-rodape">
-            <div class="pagina-info">
-                <span id="pagina-atual">1</span> de <span id="total-paginas">4</span>
-            </div>
-            
-            <div class="modal-navegacao">
-                <button class="btn btn-secundario" id="intro-modal-anterior">
-                <span class="seta">←</span> Anterior
-                </button>
-                <button class="btn btn-primario" id="intro-modal-proximo">
-                Próximo <span class="seta">→</span>
-                </button>
-                <button class="btn btn-sucesso" id="intro-modal-comecar" style="display: none;">
-                Começar a Programar!
-                </button>
-            </div>
-            </div>
-        </div>
-        </div>
-    `;
-
-        document.body.appendChild(modalElement);
-
-        initModalNavigation();
-
-    }
-
-    function showModal() {
-        criarModal();
-        modalElement.style.display = "flex";
-    }
-
-    function closeModal(showAgain = false) {
-        modalElement.style.display = "none";
-        if (showAgain){
-            localStorage.setItem(INTRO_KEY, "true");
-        }
+    function marcarComoVisto() {
+        try { localStorage.setItem(INTRO_KEY, "true"); } catch { /* sem storage: só não lembra */ }
     }
 
     function jaViuIntroducao() {
-        return localStorage.getItem(INTRO_KEY) === "true";
+        try { return localStorage.getItem(INTRO_KEY) === "true"; } catch { return false; }
     }
 
-    function nextPage(){
+    function criar() {
+        if (modal) return;
 
-        if (modalElement.style.display === "none") return;
+        const paginas = PASSOS.map((passo, i) => `
+            <section class="intro-pagina" data-passo="${i}" ${i === 0 ? "" : "hidden"}>
+                ${passo.conteudo}
+            </section>`).join("");
 
-        if (paginaAtual < totalPaginas) {
-            paginaAtual++;
-            atualizarPagina();
-        }
+        const pontos = PASSOS.map((_, i) => `
+            <button type="button" class="intro-ponto" data-ir="${i}" aria-label="Ir para o passo ${i + 1}"></button>`).join("");
 
-    }
+        modal = criarModal({
+            tituloId: "intro-titulo",
+            classe: "modal-intro",
+            aoFechar: marcarComoVisto,
+            aoTeclar: (e) => {
+                if (e.target.closest("input, select, textarea")) return;
+                if (e.key === "ArrowRight") irPara(passoAtual + 1);
+                if (e.key === "ArrowLeft") irPara(passoAtual - 1);
+            },
+            html: `
+                <header class="intro-topo">
+                    <div class="intro-icone" id="intro-icone" aria-hidden="true">${PASSOS[0].icone}</div>
+                    <div>
+                        <span class="eyebrow" id="intro-contador">Passo 1 de ${PASSOS.length}</span>
+                        <h2 id="intro-titulo">${PASSOS[0].titulo}</h2>
+                    </div>
+                    <button type="button" class="icon-button modal-fechar" data-acao="fechar" aria-label="Fechar introdução">
+                        ${ICONE_FECHAR}
+                    </button>
+                </header>
 
-    function previousPage(){
+                <div class="modal-corpo">${paginas}</div>
 
-        if (modalElement.style.display === "none") return;
-
-        if (paginaAtual > 1) {
-            paginaAtual--;
-            atualizarPagina();
-        }
-    }
-
-    function initModalNavigation() {
-
-        document.getElementById('intro-modal-proximo').addEventListener('click', nextPage);
-
-        document.getElementById('intro-modal-anterior').addEventListener('click', previousPage);
-
-        document.getElementById('intro-modal-comecar').addEventListener('click', () => {
-            closeModal(document.getElementById('nao-mostrar-novamente').checked);
+                <footer class="modal-rodape">
+                    <div class="intro-pontos">${pontos}</div>
+                    <div class="modal-acoes">
+                        <button type="button" class="btn btn-ghost" id="intro-voltar">Pular</button>
+                        <button type="button" class="btn btn-accent" id="intro-proximo" data-foco-inicial>Próximo →</button>
+                    </div>
+                </footer>
+            `
         });
 
-        // Navegação pelos indicadores
-        document.querySelectorAll('.indicador').forEach(ind => {
-            ind.addEventListener('click', () => {
-                paginaAtual = parseInt(ind.dataset.pagina);
-                atualizarPagina();
-            });
+        const d = modal.dialog;
+        d.querySelector("[data-acao='fechar']").addEventListener("click", modal.fechar);
+        d.querySelectorAll(".intro-ponto").forEach((p) =>
+            p.addEventListener("click", () => irPara(Number(p.dataset.ir))));
+
+        d.querySelector("#intro-voltar").addEventListener("click", () => {
+            if (passoAtual === 0) modal.fechar(); // no primeiro passo o botão é "Pular"
+            else irPara(passoAtual - 1);
         });
 
-        document.getElementById('intro-modal-fechar').addEventListener('click', () => {
-            closeModal();
-        });
-
-        // Fechar ao clicar fora
-        document.getElementById('modal-bemvindo').addEventListener('click', (e) => {
-            if (e.target.id === 'modal-bemvindo') {
-                closeModal();
+        d.querySelector("#intro-proximo").addEventListener("click", () => {
+            if (passoAtual < PASSOS.length - 1) {
+                irPara(passoAtual + 1);
+            } else {
+                modal.fechar();
+                // Leva direto ao primeiro desafio pendente
+                document.getElementById("btn-continuar")?.click();
             }
         });
 
-        // Navegação com setas
-        document.addEventListener('keydown', (e) => {
-
-            if (!(e.ctrlKey || e.metaKey) && e.key === 'ArrowRight') nextPage();
-
-            if (!(e.ctrlKey || e.metaKey) && e.key === 'ArrowLeft') previousPage();
-        });
-
-        // Inicializar
-        atualizarPagina();
+        atualizar();
     }
 
-    function atualizarPagina() {
+    function irPara(indice) {
+        if (indice < 0 || indice >= PASSOS.length || indice === passoAtual) return;
+        const direcao = indice > passoAtual ? "avancar" : "voltar";
+        passoAtual = indice;
+        atualizar(direcao);
+    }
 
-        document.querySelectorAll('.indicador').forEach(ind => {
-            ind.classList.remove('ativo');
-            if (parseInt(ind.dataset.pagina) === paginaAtual) {
-                ind.classList.add('ativo');
-            }
+    function atualizar(direcao) {
+        const d = modal.dialog;
+        const passo = PASSOS[passoAtual];
+        const ultimo = passoAtual === PASSOS.length - 1;
+
+        d.querySelector("#intro-titulo").textContent = passo.titulo;
+        d.querySelector("#intro-icone").textContent = passo.icone;
+        d.querySelector("#intro-contador").textContent = `Passo ${passoAtual + 1} de ${PASSOS.length}`;
+
+        d.querySelectorAll(".intro-pagina").forEach((pagina) => {
+            const ativa = Number(pagina.dataset.passo) === passoAtual;
+            pagina.hidden = !ativa;
+            pagina.classList.remove("entra-avancar", "entra-voltar");
+            if (ativa && direcao) pagina.classList.add(`entra-${direcao}`);
         });
 
-        // Atualizar páginas
-        document.querySelectorAll('.modal-pagina').forEach(pag => {
-            pag.classList.remove('ativo');
-            if (parseInt(pag.dataset.pagina) === paginaAtual) {
-                pag.classList.add('ativo');
-            }
+        d.querySelectorAll(".intro-ponto").forEach((ponto) => {
+            const ativo = Number(ponto.dataset.ir) === passoAtual;
+            ponto.classList.toggle("ativo", ativo);
+            if (ativo) ponto.setAttribute("aria-current", "step");
+            else ponto.removeAttribute("aria-current");
         });
 
-        // Atualizar contador
-        document.getElementById('pagina-atual').textContent = paginaAtual;
-        document.getElementById('total-paginas').textContent = totalPaginas;
+        d.querySelector("#intro-voltar").textContent = passoAtual === 0 ? "Pular" : "← Voltar";
+        d.querySelector("#intro-proximo").textContent = ultimo ? "Começar a programar 🚀" : "Próximo →";
+    }
 
-        // Atualizar título
-        const titulos = [
-            "Bem-vindo ao CheetahJS!",
-            "Como Funciona",
-            "Atalhos e Dicas",
-            "Pronto para Começar?"
-        ];
-        document.getElementById('intro-modal-titulo').textContent = titulos[paginaAtual - 1];
+    function show() {
+        criar();
+        passoAtual = 0;
+        atualizar();
+        modal.abrir();
+    }
 
-        // Atualizar botões
-        const btnAnterior = document.getElementById('intro-modal-anterior');
-        const btnProximo = document.getElementById('intro-modal-proximo');
-        const btnComecar = document.getElementById('intro-modal-comecar');
-
-        btnAnterior.style.display = paginaAtual === 1 ? 'none' : 'flex';
-        btnProximo.style.display = paginaAtual === totalPaginas ? 'none' : 'flex';
-        btnComecar.style.display = paginaAtual === totalPaginas ? 'block' : 'none';
-    };
+    function close() {
+        modal?.fechar();
+    }
 
     if (!jaViuIntroducao()) {
-        showModal();
+        show();
     }
 
-    return {
-        show: showModal,
-        close: closeModal
-    };
+    return { show, close };
 }
